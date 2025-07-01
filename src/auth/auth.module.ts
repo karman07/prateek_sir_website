@@ -6,10 +6,12 @@ import { jwtConfig } from '../config/jwt.config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
+import { MailerModule } from 'src/utils/mailer.module';
 
 @Module({
   imports: [
     ConfigModule,
+    MailerModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: jwtConfig,

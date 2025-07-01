@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { MailerService } from './utils/mailer.service';
+import { MailerModule } from './utils/mailer.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { JwtModule } from '@nestjs/jwt';
     // Your feature modules
     AuthModule,
     UsersModule,
-  ],
+    MailerModule,
+  ]
 })
 export class AppModule {}
