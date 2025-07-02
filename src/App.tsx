@@ -1,13 +1,37 @@
-import { buttonVariants } from "@/components/ui/button";
+import React from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import AboutMe from "./components/AboutMe";
+import Books from "./components/Books";
+import Statistics from "./components/Statistics";
+import { BooksProvider } from "./contexts/BooksContext";
+import ResearchWorkTable from "./components/ResearchWorkTable";
+import { ResearchProvider } from "./contexts/ResearchContext";
+import CourseList from "./components/CourseList";
+import { CourseProvider } from "./contexts/CourseContext";
+import Testimonials from "./components/Testimonials";
+import Footer from "./components/Footer";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen space-y-20">
-      <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-        Vite, React, Shadcn-ui minimal starter
-      </h1>
-    </main>
+    <BooksProvider>
+      <ResearchProvider>
+         <CourseProvider>
+      <div className="font-sans bg-white min-h-screen text-slate-900">
+        <Navbar />
+        <Hero />
+        <AboutMe />
+        <Books />
+        <Statistics />
+        <ResearchWorkTable/>
+        <CourseList/>
+        <Testimonials/>
+        <Footer/>
+      </div>
+      </CourseProvider>
+      </ResearchProvider>
+    </BooksProvider>
   );
-}
+};
 
 export default App;
