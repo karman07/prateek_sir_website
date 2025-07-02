@@ -31,7 +31,9 @@ export class AuthService {
     });
 
     // Send Firebase email verification
-    const verifyLink = await admin.auth().generateEmailVerificationLink(dto.email);
+    const verifyLink = await admin
+      .auth()
+      .generateEmailVerificationLink(dto.email);
     console.log('🔗 Email verification link:', verifyLink);
 
     // Create user in MongoDB
@@ -41,7 +43,7 @@ export class AuthService {
       password: dto.password,
       role: dto.role || 'user',
       verified: false,
-      firebaseUid:fbUser.uid
+      firebaseUid: fbUser.uid,
     });
 
     return {
@@ -59,7 +61,9 @@ export class AuthService {
 
     const fbUser = await admin.auth().getUserByEmail(dto.email);
     if (!fbUser.emailVerified) {
-      const verifyLink = await admin.auth().generateEmailVerificationLink(dto.email);
+      const verifyLink = await admin
+        .auth()
+        .generateEmailVerificationLink(dto.email);
       throw new UnauthorizedException(
         `Email not verified. New verification link sent.\nLink: ${verifyLink}`,
       );
@@ -70,7 +74,11 @@ export class AuthService {
       await user.save();
     }
 
-    const payload = { sub: user._id.toString(), email: user.email, role: user.role };
+    const payload = {
+      sub: user._id.toString(),
+      email: user.email,
+      role: user.role,
+    };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -93,6 +101,43 @@ export class AuthService {
     return {
       message: 'Reset password link generated.',
       resetLink,
+    };
+  }
+
+  async firebaseLogin(idToken: string) {
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const fbUser = await admin.auth().getUser(decodedToken.uid);
+
+    if (!fbUser.emailVerified) {
+      throw new UnauthorizedException('Please verify your email first.');
+    }
+
+    let user = await this.usersService.findByEmail(fbUser.email);
+    if (!user) {
+      throw new UnauthorizedException('User not found in database');
+    }
+
+    if (!user.verified) {
+      user.verified = true;
+      await user.save();
+    }
+
+    const payload = {
+      sub: user._id.toString(),
+      email: user.email,
+      role: user.role,
+    };
+    const token = this.jwtService.sign(payload);
+
+    return {
+      accessToken: token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        verified: user.verified,
+      },
     };
   }
 

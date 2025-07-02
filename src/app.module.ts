@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { MailerService } from './utils/mailer.service';
 import { MailerModule } from './utils/mailer.module';
+import { CoursesModule } from './course/courses.module';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { MailerModule } from './utils/mailer.module';
     AuthModule,
     UsersModule,
     MailerModule,
+    CoursesModule,
+    BooksModule
   ]
 })
 export class AppModule {}

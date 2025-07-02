@@ -39,8 +39,16 @@ export class AuthController {
   }
 
   @Post('reset-password')
-  resetPassword(@Query('token') token: string, @Body('password') password: string) {
+  resetPassword(
+    @Query('token') token: string,
+    @Body('password') password: string,
+  ) {
     return this.authService.resetPassword(token, password);
+  }
+
+  @Post('firebase-login')
+  firebaseLogin(@Body('idToken') idToken: string) {
+    return this.authService.firebaseLogin(idToken);
   }
 
   @Get('me')
