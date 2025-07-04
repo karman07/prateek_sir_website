@@ -2,8 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { COLORS } from '@/constants/colors';
+import { useNavigate } from 'react-router-dom';
 
 const AboutMe: React.FC = () => {
+
+  const navigate = useNavigate()
+
   return (
     <section className="w-full px-4 py-16 sm:px-6 md:px-12 lg:px-20 xl:px-32 bg-white text-slate-800">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
@@ -42,7 +46,7 @@ const AboutMe: React.FC = () => {
             variant="default"
             className="text-sm sm:text-base px-6 py-3 rounded-xl transition hover:scale-[1.03]"
             style={{ backgroundColor: COLORS.accent, color: '#fff' }}
-            onClick={() => (window.location.href = '/about')}
+            onClick={() => navigate('/about')}
           >
             Read More
           </Button>

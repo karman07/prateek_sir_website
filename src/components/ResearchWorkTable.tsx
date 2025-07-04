@@ -1,9 +1,12 @@
 import React from 'react';
 import { useResearch } from '@/contexts/ResearchContext';
 import { COLORS } from '@/constants/colors';
+import { useNavigate } from 'react-router-dom';
 
 const ResearchWorkTable: React.FC = () => {
   const projects = useResearch();
+  const navigate = useNavigate();
+  const visibleProjects = projects.slice(0, 5);
 
   return (
     <section className="w-full px-4 py-16 sm:px-6 md:px-12 lg:px-20 xl:px-32">
@@ -27,12 +30,12 @@ const ResearchWorkTable: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {projects.map((proj) => (
+              {visibleProjects.map((proj, index) => (
                 <tr
-                  key={proj.id}
+                  key={proj._id}
                   className="hover:bg-slate-50 transition duration-300"
                 >
-                  <td className="px-4 py-3 font-medium text-slate-700">{proj.id}</td>
+                  <td className="px-4 py-3 font-medium text-slate-700">{index + 1}</td>
                   <td className="px-4 py-3">{proj.title}</td>
                   <td className="px-4 py-3">{proj.amount}</td>
                   <td className="px-4 py-3">{proj.fundingAgency}</td>
@@ -40,20 +43,30 @@ const ResearchWorkTable: React.FC = () => {
                   <td className="px-4 py-3">{proj.duration}</td>
                   <td className="px-4 py-3">{proj.investigators}</td>
                   <td className="px-4 py-3">
-                    {proj.link ? (
-                      <a
-                        href={proj.link}
-                        className="text-blue-600 hover:underline font-medium"
-                        style={{ color: COLORS.accent }}
-                      >
-                        Learn More →
-                      </a>
-                    ) : (
-                      <span className="text-slate-400">N/A</span>
-                    )}
+                    <button
+                      onClick={() => navigate(`/research/${proj._id}`)}
+                      className="text-blue-600 hover:underline font-medium"
+                      style={{ color: COLORS.accent }}
+                    >
+                      Learn More →
+                    </button>
                   </td>
                 </tr>
               ))}
+
+              {projects.length > 5 && (
+                <tr className="hover:bg-slate-100 text-center">
+                  <td colSpan={8} className="py-4">
+                    <button
+                      onClick={() => navigate('/research')}
+                      className="text-sm text-blue-600 hover:underline font-medium"
+                      style={{ color: COLORS.accent }}
+                    >
+                      Show More Projects →
+                    </button>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

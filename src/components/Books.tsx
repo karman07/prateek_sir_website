@@ -3,9 +3,15 @@ import { motion } from 'framer-motion';
 import { COLORS } from '@/constants/colors';
 import { useBooks } from '@/contexts/BooksContext';
 import BookCard from '@/components/BookCard';
+import { useNavigate } from 'react-router-dom';
 
 const Books: React.FC = () => {
   const books = useBooks();
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    navigate(`/books`);
+  };
 
   return (
     <section
@@ -40,7 +46,10 @@ const Books: React.FC = () => {
               backgroundColor: COLORS.accent,
               color: '#fff',
             }}
-            // onClick={() => navigate('/books')}
+              onClick={(e) => {
+              e.stopPropagation(); // prevent triggering card click
+              handleCardClick();   // navigate manually
+            }}
           >
             View More Books
           </button>

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { COLORS } from '@/constants/colors';
 
 export interface Course {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   thumbnail: string;

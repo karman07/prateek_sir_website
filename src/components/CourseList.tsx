@@ -2,10 +2,11 @@ import React from 'react';
 import CourseCard from './CourseCard';
 import { useCourses } from '@/contexts/CourseContext';
 import { COLORS } from '@/constants/colors';
+import { useNavigate } from 'react-router-dom';
 
 const CourseList: React.FC = () => {
   const courses = useCourses();
-
+  const navigate = useNavigate()
   return (
     <section
       className="w-full px-4 py-16 sm:px-6 md:px-12 lg:px-20 xl:px-32"
@@ -17,19 +18,19 @@ const CourseList: React.FC = () => {
         </h2>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
-          {courses.map((course, idx) => (
-            <CourseCard key={course.id} course={course} idx={idx} />
+          {courses.slice(0, 3).map((course, idx) => (
+            <CourseCard key={course._id} course={course} idx={idx} />
           ))}
         </div>
 
         <div className="mt-10 text-center">
-          <a
-            href="/courses"
+          <button
+            onClick={() => { navigate('/courses') }}
             className="inline-block text-white px-6 py-2 rounded-lg text-sm font-medium transition"
             style={{ backgroundColor: COLORS.accent }}
           >
             View More Courses →
-          </a>
+          </button>
         </div>
       </div>
     </section>

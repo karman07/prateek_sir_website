@@ -5,6 +5,9 @@ export const COLORS = {
   textPrimary: '#ffffff',
   textMuted: '#cbd5e1',
   activeNav: '#4EA8DE',
+  lightBg: '#f1f5f9',
+  textMuted2: '#64748b',
+  textPrimary2: '#0f172a',
 };
 
 export const COLORS_PIE = ['#4EA8DE', '#38bdf8', '#0ea5e9', '#0284c7', '#0369a1'];
