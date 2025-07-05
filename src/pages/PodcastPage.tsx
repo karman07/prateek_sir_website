@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { usePodcasts } from '@/contexts/PodcastContext';
 import { Mic, MapPin, CalendarDays, Search } from 'lucide-react';
-import { COLORS } from '@/constants/colors';
 
 const PodcastPage: React.FC = () => {
   const podcasts = usePodcasts();
