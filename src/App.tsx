@@ -18,6 +18,7 @@ import AllCoursesPage from "./pages/AllCoursesPage";
 import { PodcastProvider } from '@/contexts/PodcastContext';
 import PodcastPage from "./pages/PodcastPage";
 import ScrollToTop from "./components/ScrollToTop"; 
+import { StudentProvider } from "./contexts/StudentContext";
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
       <ResearchProvider>
         <CourseProvider>
           <PodcastProvider>
+            <StudentProvider>
           <Router>
             <ScrollToTop />
             <div className="font-sans bg-white min-h-screen text-slate-900 flex flex-col justify-between">
@@ -45,6 +47,7 @@ const App: React.FC = () => {
               <Footer />
             </div>
           </Router>
+          </StudentProvider>
           </PodcastProvider>
         </CourseProvider>
       </ResearchProvider>

@@ -15,39 +15,40 @@ const BookCard: React.FC<{ book: Book; idx: number }> = ({ book, idx }) => {
   };
 
   return (
-    <motion.div
-      className="rounded-2xl overflow-hidden shadow-xl border border-slate-200 bg-white flex flex-col cursor-pointer hover:shadow-2xl transition-all duration-300"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: idx * 0.1 }}
-      onClick={handleCardClick}
-    >
-      <img
-        src={book.image}
-        alt={book.title}
-        className="w-full h-52 object-cover"
-      />
-      <div className="p-6 flex-1 flex flex-col justify-between">
-        <h3 className="text-xl font-bold mb-2 text-slate-800">
+<motion.div
+  className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-white flex flex-col cursor-pointer transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]"
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4, delay: idx * 0.1 }}
+  onClick={handleCardClick}
+>
+  <div className="w-full aspect-[3/2] relative bg-white">
+    <img
+      src={book.image}
+      alt={book.title}
+      className="absolute inset-0 w-full h-full object-contain bg-white"
+    />
+  </div>
+
+      <div className="p-5 flex-1 flex flex-col justify-between">
+        <h3 className="text-lg font-semibold text-slate-800 mb-2">
           {book.title}
         </h3>
-        <p className="text-sm mb-4" style={{ color: COLORS.textMuted }}>
+        <p className="text-sm text-slate-600 mb-4">
           {truncateText(book.description, 100)}
         </p>
-        <div className="flex justify-between items-center">
-          <span
-            className="font-semibold text-base"
-            style={{ color: COLORS.accent }}
-          >
+
+        <div className="flex items-center justify-between mt-auto">
+          <span className="text-base font-semibold" style={{ color: COLORS.accent }}>
             {book.price}
           </span>
           <button
             onClick={(e) => {
-              e.stopPropagation(); // prevent triggering card click
-              handleCardClick();   // navigate manually
+              e.stopPropagation();
+              handleCardClick();
             }}
-            className="text-sm font-medium hover:underline"
-            style={{ color: COLORS.accent }}
+            className="text-sm font-medium transition-colors"
+            style={{color : COLORS.accent}}
           >
             Read More →
           </button>

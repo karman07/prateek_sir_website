@@ -47,8 +47,8 @@ const Books: React.FC = () => {
               color: '#fff',
             }}
               onClick={(e) => {
-              e.stopPropagation(); // prevent triggering card click
-              handleCardClick();   // navigate manually
+              e.stopPropagation(); 
+              handleCardClick();   
             }}
           >
             View More Books

@@ -6,6 +6,7 @@ import PodcastList from '@/components/PodcastList'
 import ResearchWorkTable from '@/components/ResearchWorkTable'
 import Statistics from '@/components/Statistics'
 import Testimonials from '@/components/Testimonials'
+import StudentList from '@/components/StudentList'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <Statistics />
         <ResearchWorkTable/>
         <CourseList/>
+        <StudentList/>
         <PodcastList/>
         <Testimonials/>
     </div>

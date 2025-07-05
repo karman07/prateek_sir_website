@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePodcasts } from '@/contexts/PodcastContext';
-import { Mic, MapPin, CalendarDays } from 'lucide-react';
+import { Mic, MapPin, CalendarDays, Search } from 'lucide-react';
 import { COLORS } from '@/constants/colors';
 
 const PodcastPage: React.FC = () => {
@@ -14,30 +14,35 @@ const PodcastPage: React.FC = () => {
   );
 
   return (
-    <section className="w-full px-6 py-16 sm:px-8 md:px-16 lg:px-24 xl:px-32 bg-white">
+    <section className="w-full px-6 pt-32 pb-20 sm:px-8 md:px-16 lg:px-24 xl:px-32 bg-white">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-8 text-center text-slate-800">
-          All <span style={{ color: COLORS.accent }}>Talks & Podcasts</span>
+        {/* Heading */}
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-center mb-12 text-slate-800">
+          All{' '}
+          <span className="bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text">
+            Talks & Podcasts
+          </span>
         </h1>
 
-        {/* Search Input */}
-        <div className="mb-10 max-w-xl mx-auto">
+        {/* Search Bar */}
+        <div className="mb-12 max-w-xl mx-auto relative">
+          <Search className="absolute top-3.5 left-4 text-slate-400" size={20} />
           <input
             type="text"
             placeholder="Search podcasts..."
-            className="w-full px-5 py-3 rounded-lg border border-slate-300 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 text-sm shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
         </div>
 
-        {/* Podcast List */}
+        {/* Podcast Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredPodcasts.length > 0 ? (
             filteredPodcasts.map((podcast) => (
               <div
                 key={podcast._id}
-                className="bg-white border border-slate-200 rounded-2xl shadow-lg p-6 flex flex-col gap-5"
+                className="bg-white border border-slate-200 rounded-2xl shadow-md hover:shadow-lg transition-all p-6 flex flex-col gap-5"
               >
                 {/* Topic */}
                 <div className="flex items-start gap-3 text-slate-800">

@@ -36,11 +36,15 @@ const BookDetails: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <img
-            src={book.image}
-            alt={book.title}
-            className="w-full h-auto rounded-2xl object-cover shadow-2xl mt-4 max-h-[500px]"
-          />
+          {/* ✅ Fixed Book Cover */}
+          <div className="w-full max-h-[500px] aspect-[3/4] relative bg-white rounded-2xl shadow-2xl overflow-hidden mt-4">
+            <img
+              src={book.image}
+              alt={book.title}
+              className="absolute inset-0 w-full h-full object-contain p-4"
+            />
+          </div>
+
           <div className="flex flex-col justify-between space-y-8 mt-4">
             <div>
               <h1 className="text-4xl font-bold mb-4" style={{ color: COLORS.primaryBg }}>
@@ -122,11 +126,15 @@ const BookDetails: React.FC = () => {
                 className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 cursor-pointer"
                 onClick={() => navigate(`/books/${similar._id}`)}
               >
-                <img
-                  src={similar.image}
-                  alt={similar.title}
-                  className="h-48 w-full object-cover"
-                />
+                {/* ✅ Fixed Similar Book Image */}
+                <div className="h-48 w-full relative bg-white overflow-hidden">
+                  <img
+                    src={similar.image}
+                    alt={similar.title}
+                    className="absolute inset-0 w-full h-full object-contain p-2"
+                  />
+                </div>
+
                 <div className="p-4 space-y-2">
                   <h3 className="text-lg font-semibold" style={{ color: COLORS.primaryBg }}>
                     {similar.title}

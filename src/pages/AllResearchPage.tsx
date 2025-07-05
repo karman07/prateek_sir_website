@@ -22,7 +22,7 @@ const AllResearchPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Explore <span style={{ color: COLORS.accent }}>Research Work</span>
+        Explore <span className='bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text'>Research Work</span>
       </motion.h1>
 
       <div className="max-w-xl mx-auto mb-12 relative">

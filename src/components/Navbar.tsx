@@ -1,15 +1,20 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { COLORS } from '@/constants/colors';
-import { useBooks } from '@/contexts/BooksContext';
-import { useCourses } from '@/contexts/CourseContext';
-import { useResearch } from '@/contexts/ResearchContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from "react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { COLORS } from "@/constants/colors";
+import { useBooks } from "@/contexts/BooksContext";
+import { useCourses } from "@/contexts/CourseContext";
+import { useResearch } from "@/contexts/ResearchContext";
+import { motion, AnimatePresence } from "framer-motion";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { firebaseApp } from "@/firebase/firebase";
+import LoginModal from "./auth/LoginModal";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const books = useBooks();
   const courses = useCourses();
@@ -24,7 +29,14 @@ const Navbar: React.FC = () => {
   const toggleDropdown = (label: string) =>
     setOpenDropdown((prev) => (prev === label ? null : label));
 
-  // Close dropdown/menu on clicks outside
+  useEffect(() => {
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       const target = e.target as Node;
@@ -41,18 +53,24 @@ const Navbar: React.FC = () => {
         setOpenDropdown(null);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [openDropdown, isOpen]);
+
+  const handleLogout = () => {
+    const auth = getAuth(firebaseApp);
+    signOut(auth);
+    setUser(null);
+  };
 
   const dropdownItem = (
     items: { _id: string; title: string; link?: string }[],
     showMorePath: string,
-    type: 'books' | 'research' | 'courses'
+    type: "books" | "research" | "courses"
   ) => (
     <>
       {items.slice(0, 5).map((item) =>
-        type === 'courses' && item.link ? (
+        type === "courses" && item.link ? (
           <li key={item._id}>
             <a
               onClick={() => setOpenDropdown(null)}
@@ -89,108 +107,85 @@ const Navbar: React.FC = () => {
   );
 
   return (
-    <nav
-      className="fixed top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 backdrop-blur-md border-b border-white/10"
-      style={{ backgroundColor: COLORS.overlay, color: COLORS.textPrimary }}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between relative">
-        <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Prateek Bhatia</h1>
+    <nav className="fixed top-0 left-0 w-full z-50 px-6 sm:px-10 py-4 bg-[#0B1F3A] text-white shadow-md border-b border-white/10">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <h1 className="text-2xl font-bold tracking-wide">Prateek Bhatia</h1>
 
-        {/* Desktop Nav */}
-        <ul className="hidden md:flex gap-8 font-medium text-sm sm:text-base items-center">
-          <li>
-            <Link onClick={() => setOpenDropdown(null)} to="/" className="hover:text-blue-300 capitalize">Home</Link>
-          </li>
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex gap-10 font-medium text-base items-center ml-10 text-white/90">
+          <li><Link to="/" className="hover:text-white">Home</Link></li>
 
-          {/* Books Dropdown */}
-          <li className="relative">
-            <button
-              onClick={() => toggleDropdown('Books')}
-              className={`capitalize flex items-center gap-1 ${
-                openDropdown === 'Books'
-                  ? `text-[${COLORS.activeNav}] underline underline-offset-4`
-                  : 'hover:text-blue-300'
-              }`}
-            >
-              Books <ChevronDown size={16} />
-            </button>
-            <AnimatePresence>
-              {openDropdown === 'Books' && (
-                <motion.ul
-                  ref={booksRef}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-48 p-2 space-y-2 z-50"
-                >
-                  {dropdownItem(books, '/books', 'books')}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </li>
+          {["Books", "Courses", "Research"].map((label) => (
+            <li className="relative" key={label}>
+              <button
+                onClick={() => toggleDropdown(label)}
+                className="flex items-center gap-1 hover:text-white"
+              >
+                {label} <ChevronDown size={16} />
+              </button>
+              <AnimatePresence>
+                {openDropdown === label && (
+                  <motion.ul
+                    ref={
+                      label === "Books"
+                        ? booksRef
+                        : label === "Courses"
+                        ? coursesRef
+                        : researchRef
+                    }
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className={`absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-${
+                      label === "Books" ? "48" : label === "Courses" ? "60" : "72"
+                    } p-2 space-y-2 z-50`}
+                  >
+                    {dropdownItem(
+                      label === "Books"
+                        ? books
+                        : label === "Courses"
+                        ? courses
+                        : research,
+                      `/${label.toLowerCase()}`,
+                      label.toLowerCase() as any
+                    )}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </li>
+          ))}
 
-          {/* Courses Dropdown */}
-          <li className="relative">
-            <button
-              onClick={() => toggleDropdown('Courses')}
-              className={`capitalize flex items-center gap-1 ${
-                openDropdown === 'Courses'
-                  ? `text-[${COLORS.activeNav}] underline underline-offset-4`
-                  : 'hover:text-blue-300'
-              }`}
-            >
-              Courses <ChevronDown size={16} />
-            </button>
-            <AnimatePresence>
-              {openDropdown === 'Courses' && (
-                <motion.ul
-                  ref={coursesRef}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-60 p-2 space-y-2 z-50"
-                >
-                  {dropdownItem(courses, '/courses', 'courses')}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </li>
-
-          {/* Research Dropdown */}
-          <li className="relative">
-            <button
-              onClick={() => toggleDropdown('Research')}
-              className={`capitalize flex items-center gap-1 ${
-                openDropdown === 'Research'
-                  ? `text-[${COLORS.activeNav}] underline underline-offset-4`
-                  : 'hover:text-blue-300'
-              }`}
-            >
-              Research Work <ChevronDown size={16} />
-            </button>
-            <AnimatePresence>
-              {openDropdown === 'Research' && (
-                <motion.ul
-                  ref={researchRef}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-72 p-2 space-y-2 z-50"
-                >
-                  {dropdownItem(research, '/research', 'research')}
-                </motion.ul>
-              )}
-            </AnimatePresence>
-          </li>
+          <li><Link to="/about" className="hover:text-white">About Me</Link></li>
+          <li><Link to="/podcast" className="hover:text-white">Podcast</Link></li>
+          <li><Link to="/contact" className="hover:text-white">Contact Me</Link></li>
 
           <li>
-            <Link onClick={() => setOpenDropdown(null)} to="/about" className="hover:text-blue-300 capitalize">About Me</Link>
-          </li>
-          <li>
-            <Link onClick={() => setOpenDropdown(null)} to="/podcast" className="hover:text-blue-300 capitalize">Podcast</Link>
-          </li>
-          <li>
-            <Link onClick={() => setOpenDropdown(null)} to="/contact" className="hover:text-blue-300 capitalize">Contact Me</Link>
+            {user ? (
+              <div className="relative group">
+                <img
+                  src={user.photoURL || "/avatar.png"}
+                  alt="profile"
+                  className="w-9 h-9 rounded-full cursor-pointer"
+                />
+                <div className="absolute top-12 right-0 w-56 p-3 bg-white border rounded-lg shadow-md hidden group-hover:block z-50 text-sm text-slate-800">
+                  <p className="font-semibold">{user.displayName || user.email}</p>
+                  <p className="text-xs text-gray-500">{user.email}</p>
+                  <button
+                    onClick={handleLogout}
+                    className="mt-2 text-red-500 hover:underline"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full shadow hover:from-blue-600 hover:to-indigo-700 text-sm"
+              >
+                Login / Signup
+              </button>
+            )}
           </li>
         </ul>
 
@@ -202,121 +197,94 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
             ref={mobileRef}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-4 px-2 overflow-hidden"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed top-0 right-0 h-full w-full max-w-xs bg-white z-40 shadow-lg p-6 text-slate-800 md:hidden"
           >
-            <ul className="flex flex-col gap-4 bg-white/10 p-4 rounded-lg shadow-lg border border-white/10 text-white text-sm">
-              <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/">Home</Link>
+            <button onClick={toggleMenu} className="mb-6">
+              <X size={28} />
+            </button>
+            <ul className="space-y-4 text-base font-medium">
+              <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
 
-              {/* Mobile Books */}
-              <div>
-                <button onClick={() => toggleDropdown('Books')} className="flex justify-between w-full">
-                  Books <ChevronDown size={16} />
-                </button>
-                <AnimatePresence>
-                  {openDropdown === 'Books' && (
-                    <motion.ul
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pl-4 mt-1 space-y-1 text-white/90"
-                    >
-                      {books.slice(0, 5).map((book) => (
-                        <li key={book._id}>
-                          <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to={`/books/${book._id}`}>
-                            {book.title}
-                          </Link>
-                        </li>
-                      ))}
-                      <li>
-                        <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/books" className="text-blue-300 underline">
-                          Show More
-                        </Link>
-                      </li>
-                    </motion.ul>
+              {["Books", "Courses", "Research"].map((label) => (
+                <li key={label}>
+                  <button
+                    onClick={() => toggleDropdown(label)}
+                    className="flex items-center justify-between w-full"
+                  >
+                    {label} <ChevronDown size={16} />
+                  </button>
+                  {openDropdown === label && (
+                    <ul className="pl-4 space-y-1">
+                      {dropdownItem(
+                        label === "Books"
+                          ? books
+                          : label === "Courses"
+                          ? courses
+                          : research,
+                        `/${label.toLowerCase()}`,
+                        label.toLowerCase() as any
+                      )}
+                    </ul>
                   )}
-                </AnimatePresence>
-              </div>
+                </li>
+              ))}
 
-              {/* Mobile Courses */}
-              <div>
-                <button onClick={() => toggleDropdown('Courses')} className="flex justify-between w-full">
-                  Courses <ChevronDown size={16} />
-                </button>
-                <AnimatePresence>
-                  {openDropdown === 'Courses' && (
-                    <motion.ul
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pl-4 mt-1 space-y-1 text-white/90"
+              <li><Link to="/about" onClick={toggleMenu}>About Me</Link></li>
+              <li><Link to="/podcast" onClick={toggleMenu}>Podcast</Link></li>
+              <li><Link to="/contact" onClick={toggleMenu}>Contact Me</Link></li>
+
+              <li>
+                {user ? (
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={user.photoURL || "/avatar.png"}
+                        alt="profile"
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <div>
+                        <p className="font-semibold text-sm">{user.displayName || user.email}</p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleMenu();
+                      }}
+                      className="text-red-500 text-sm hover:underline"
                     >
-                      {courses.slice(0, 5).map((course) => (
-                        <li key={course._id}>
-                          <a
-                            href={course.link}
-                            onClick={() => { setIsOpen(false); setOpenDropdown(null); }}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {course.title}
-                          </a>
-                        </li>
-                      ))}
-                      <li>
-                        <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/courses" className="text-blue-300 underline">
-                          Show More
-                        </Link>
-                      </li>
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Mobile Research */}
-              <div>
-                <button onClick={() => toggleDropdown('Research')} className="flex justify-between w-full">
-                  Research Work <ChevronDown size={16} />
-                </button>
-                <AnimatePresence>
-                  {openDropdown === 'Research' && (
-                    <motion.ul
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="pl-4 mt-1 space-y-1 text-white/90"
-                    >
-                      {research.slice(0, 5).map((proj) => (
-                        <li key={proj._id}>
-                          <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to={`/research/${proj._id}`}>
-                            {proj.title}
-                          </Link>
-                        </li>
-                      ))}
-                      <li>
-                        <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/research" className="text-blue-300 underline">
-                          Show More
-                        </Link>
-                      </li>
-                    </motion.ul>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/about">About Me</Link>
-              <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/podcast">Podcast</Link>
-              <Link onClick={() => { setIsOpen(false); setOpenDropdown(null); }} to="/contact">Contact Me</Link>
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      toggleMenu();
+                    }}
+                    className="mt-2 w-full py-2 px-4 bg-blue-600 text-white rounded-md text-sm font-semibold"
+                  >
+                    Login / Signup
+                  </button>
+                )}
+              </li>
             </ul>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Login Modal */}
+      {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
     </nav>
   );
 };

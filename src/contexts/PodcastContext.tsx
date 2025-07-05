@@ -1,5 +1,6 @@
-// contexts/PodcastContext.tsx
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '@/constants/base';
 
 export interface Podcast {
   _id: string;
@@ -8,32 +9,36 @@ export interface Podcast {
   date: string;
 }
 
-const podcastData: Podcast[] = [
-  {
-    _id: '1',
-    topic:
-      'Invited Talk on “Empowering Educators with GenAI” delivered during the online Faculty Induction Programme (Guru Dakshata)',
-    place:
-      'MMTTC, Indira Gandhi National Tribal University (IGNTU), Amarkantak, Madhya Pradesh',
-    date: 'December 23, 2024',
-  },
-  {
-    _id: '2',
-    topic:
-      'Webinar on "AI for Social Good" conducted for students and faculty of Technical Institutions',
-    place: 'AICTE Training and Learning Academy (ATAL), New Delhi',
-    date: 'January 15, 2025',
-  },
-];
-
-const PodcastContext = createContext<Podcast[]>(podcastData);
+const PodcastContext = createContext<Podcast[]>([]);
+const PodcastLoadingContext = createContext<boolean>(false);
 
 export const usePodcasts = () => useContext(PodcastContext);
+export const usePodcastsLoading = () => useContext(PodcastLoadingContext);
 
 export const PodcastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchPodcasts = async () => {
+      try {
+        const res = await axios.get<Podcast[]>(`${BASE_URL}/podcasts`);
+        setPodcasts(res.data);
+      } catch (err) {
+        console.error('Failed to fetch podcasts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPodcasts();
+  }, []);
+
   return (
-    <PodcastContext.Provider value={podcastData}>
-      {children}
+    <PodcastContext.Provider value={podcasts}>
+      <PodcastLoadingContext.Provider value={loading}>
+        {children}
+      </PodcastLoadingContext.Provider>
     </PodcastContext.Provider>
   );
 };

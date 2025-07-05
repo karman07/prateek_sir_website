@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import CourseCard from '@/components/CourseCard';
 import { useCourses } from '@/contexts/CourseContext';
-import { COLORS } from '@/constants/colors';
 
 const AllCoursesPage: React.FC = () => {
   const courses = useCourses();
@@ -22,7 +21,7 @@ const AllCoursesPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Explore <span style={{ color: COLORS.accent }}>Courses</span>
+        Explore <span className='bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text'>Courses</span>
       </motion.h1>
 
       {/* Search */}

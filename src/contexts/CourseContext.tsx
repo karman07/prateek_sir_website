@@ -1,7 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '@/constants/base'; 
 
 export interface Course {
-  _id: string
+  _id: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -13,62 +15,39 @@ export interface Course {
   link?: string;
 }
 
-const courses: Course[] = [
-  {
-    _id: '1',
-    title: 'The Ultimate Guide to Python for Beginners',
-    description: 'Learn Python programming from scratch in this step-by-step series.',
-    thumbnail: 'https://img.youtube.com/vi/_uQrJ0TkZlc/hqdefault.jpg',
-    instructor: 'Parteek Bhatia',
-    duration: '18h 30m',
-    level: 'Beginner',
-    lessons: 120,
-    badge: 'Free',
-    link: 'https://www.youtube.com/watch?v=_uQrJ0TkZlc',
-  },
-  {
-    _id: '2',
-    title: 'Data Science Full Course - Parteek Bhatia',
-    description: 'Master data science using real-world projects and in-depth concepts.',
-    thumbnail: 'https://img.youtube.com/vi/tPYj3fFJGjk/hqdefault.jpg',
-    instructor: 'Parteek Bhatia',
-    duration: '25h',
-    level: 'Intermediate',
-    lessons: 95,
-    badge: 'YouTube',
-    link: 'https://www.youtube.com/watch?v=tPYj3fFJGjk',
-  },
-  {
-    _id: '3',
-    title: 'Machine Learning Bootcamp with Python',
-    description: 'Comprehensive course on ML algorithms with hands-on projects.',
-    thumbnail: 'https://img.youtube.com/vi/GwIo3gDZCVQ/hqdefault.jpg',
-    instructor: 'Parteek Bhatia',
-    duration: '22h',
-    level: 'Intermediate',
-    lessons: 110,
-    badge: 'Watch Now',
-    link: 'https://www.youtube.com/watch?v=GwIo3gDZCVQ',
-  },
-  {
-    _id: '4',
-    title: 'Machine Learning Bootcamp with Python',
-    description: 'Comprehensive course on ML algorithms with hands-on projects.',
-    thumbnail: 'https://img.youtube.com/vi/GwIo3gDZCVQ/hqdefault.jpg',
-    instructor: 'Parteek Bhatia',
-    duration: '22h',
-    level: 'Intermediate',
-    lessons: 110,
-    badge: 'Watch Now',
-    link: 'https://www.youtube.com/watch?v=GwIo3gDZCVQ',
-  },
-  
-];
-
-const CourseContext = createContext<Course[]>(courses);
+const CourseContext = createContext<Course[]>([]);
 
 export const useCourses = () => useContext(CourseContext);
 
 export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get<Course[]>(`${BASE_URL}/courses`);
+        setCourses(res.data);
+      } catch (error) {
+        console.error('Failed to fetch courses:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-sm text-gray-500">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
   return <CourseContext.Provider value={courses}>{children}</CourseContext.Provider>;
 };

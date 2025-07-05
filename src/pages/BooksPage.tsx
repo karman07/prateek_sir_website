@@ -50,7 +50,7 @@ const BooksPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        Explore My <span style={{ color: COLORS.accent }}>Books</span>
+        Explore My <span className='bg-gradient-to-r from-blue-500 to-indigo-600 text-transparent bg-clip-text'>Books</span>
       </motion.h1>
 
       {/* Search Bar */}

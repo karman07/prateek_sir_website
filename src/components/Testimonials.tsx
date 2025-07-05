@@ -51,7 +51,6 @@ const testimonials: Testimonial[] = [
 const Testimonials: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll effect
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -62,12 +61,11 @@ const Testimonials: React.FC = () => {
       scrollAmount += 1;
       container.scrollLeft += 1;
 
-      // Reset scroll
       if (scrollAmount >= container.scrollWidth - container.clientWidth) {
         scrollAmount = 0;
         container.scrollLeft = 0;
       }
-    }, 20); // Adjust speed here
+    }, 20); 
 
     return () => clearInterval(interval);
   }, []);
