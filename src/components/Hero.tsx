@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
           <motion.h1
             key={`title-${index}`}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-snug"
-            style={{ color: COLORS.gradientAccent}}
+            style={{ color: COLORS.accent}}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
