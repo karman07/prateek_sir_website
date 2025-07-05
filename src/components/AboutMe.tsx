@@ -33,7 +33,7 @@ const AboutMe: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            About <span style={{ color: COLORS.accent }}>Me</span>
+            About <span className={COLORS.gradientText}>Me</span>
           </h2>
 
           <p className="text-base sm:text-lg mb-6 max-w-2xl text-slate-600">
@@ -44,8 +44,7 @@ const AboutMe: React.FC = () => {
 
           <Button
             variant="default"
-            className="text-sm sm:text-base px-6 py-3 rounded-xl transition hover:scale-[1.03]"
-            style={{ backgroundColor: COLORS.accent, color: '#fff' }}
+            className={`text-sm sm:text-base px-6 py-3 rounded-xl transition hover:scale-[1.03] ${COLORS.gradientAccent}`}
             onClick={() => navigate('/about')}
           >
             Read More

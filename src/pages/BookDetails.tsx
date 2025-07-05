@@ -55,15 +55,14 @@ const BookDetails: React.FC = () => {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <p className="text-xl font-semibold" style={{ color: COLORS.accent }}>
+              <p className={`text-xl font-semibold ${COLORS.gradientText}`}>
                 Price: {book.price}
               </p>
               <a
                 href={book.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 rounded-xl font-medium transition text-white hover:scale-105 duration-300 shadow-md"
-                style={{ backgroundColor: COLORS.primaryBg }}
+                className={`px-6 py-3 rounded-xl font-medium transition text-white hover:scale-105 duration-300 shadow-md ${COLORS.gradientAccent}`}
               >
                 Buy Now
               </a>
@@ -80,7 +79,7 @@ const BookDetails: React.FC = () => {
             <ul className="space-y-3 pl-4 list-none">
               {visibleContents?.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-slate-600 text-base">
-                  <span className="w-2 h-2 mt-2 rounded-full" style={{ backgroundColor: COLORS.accent }} />
+                  <span className="w-2 h-2 mt-2 rounded-full" style={{ backgroundColor: COLORS.gradientAccent}} />
                   {item}
                 </li>
               ))}
@@ -142,10 +141,10 @@ const BookDetails: React.FC = () => {
                   <p className="text-sm text-slate-600 line-clamp-2">
                     {similar.description}
                   </p>
-                  <div className="text-sm font-semibold" style={{ color: COLORS.accent }}>
+                  <div className={`text-sm font-semibold ${COLORS.gradientText}`}>
                     {similar.price}
                   </div>
-                  <div className="flex items-center text-sm font-medium" style={{ color: COLORS.accent }}>
+                  <div className={`flex items-center text-sm font-medium ${COLORS.gradientText}`}>
                     View Details <ArrowRight className="ml-1 w-4 h-4" />
                   </div>
                 </div>

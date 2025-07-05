@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useStudents } from '@/contexts/StudentContext';
 import { COLORS } from '@/constants/colors';
 import StudentCard from './StudentCard';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const StudentList: React.FC = () => {
   const students = useStudents();
@@ -17,10 +16,7 @@ const StudentList: React.FC = () => {
     <div className="text-center mt-6">
       <button
         onClick={toggle}
-         className="px-6 py-2 rounded-lg text-sm font-medium text-white transition duration-300"
-          style={{
-                     backgroundColor: COLORS.accent,
-                   }}
+         className={`px-6 py-2 rounded-lg text-sm font-medium text-white transition duration-300 ${COLORS.gradientAccent}`}
       >
         {showMore ? (
           <>
@@ -42,7 +38,7 @@ const StudentList: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16 text-slate-800">
-          My Research <span style={{ color: COLORS.accent }}>Scholars</span>
+          My Research <span className={COLORS.gradientText}>Scholars</span>
         </h2>
 
         {/* PhD Students */}

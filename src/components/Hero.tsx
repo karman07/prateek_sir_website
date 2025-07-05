@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
           <motion.h1
             key={`title-${index}`}
             className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-snug"
-            style={{ color: COLORS.accent }}
+            style={{ color: COLORS.gradientAccent}}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -103,11 +103,7 @@ const Hero: React.FC = () => {
         >
           <Button
             variant="default"
-            className="px-6 py-3 rounded-xl text-base font-semibold hover:scale-105 transition-transform duration-300 shadow-md"
-            style={{
-              backgroundColor: COLORS.accent,
-              color: '#fff',
-            }}
+            className="px-6 py-3 rounded-xl text-base font-semibold hover:scale-105 transition-transform duration-300 shadow-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
             onClick={() => navigate(slides[index].link)}
           >
             Learn More

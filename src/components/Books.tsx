@@ -25,7 +25,7 @@ const Books: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span style={{ color: COLORS.accent }}>Books</span> by Me
+          <span className={COLORS.gradientText}>Books</span> by Me
         </motion.h2>
 
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
@@ -41,11 +41,7 @@ const Books: React.FC = () => {
           transition={{ delay: 0.4 }}
         >
           <button
-            className="text-sm sm:text-base px-6 py-3 rounded-xl font-medium transition hover:scale-105"
-            style={{
-              backgroundColor: COLORS.accent,
-              color: '#fff',
-            }}
+            className={`text-sm sm:text-base px-6 py-3 rounded-xl font-medium transition hover:scale-105 ${COLORS.gradientAccent}`}
               onClick={(e) => {
               e.stopPropagation(); 
               handleCardClick();   

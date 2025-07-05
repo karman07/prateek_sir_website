@@ -27,13 +27,13 @@ const ResearchDetails: React.FC = () => {
         className="flex items-center text-sm text-blue-600 hover:underline mb-6"
       >
         <ArrowLeft className="w-4 h-4 mr-1" />
-        <span style={{ color: COLORS.accent }}>Back</span>
+        <span className={COLORS.gradientText}>Back</span>
       </button>
 
       <div className="bg-white shadow-md rounded-xl p-6 md:p-10 space-y-6">
         <h1 className="text-3xl font-bold text-slate-800">{project.title}</h1>
 
-        <div className="text-slate-600 leading-relaxed">
+        <div className="text-slate-600 leading-relaxed space-y-2">
           <p><strong className="text-slate-700">Amount:</strong> {project.amount}</p>
           <p><strong className="text-slate-700">Funding Agency:</strong> {project.fundingAgency}</p>
           <p><strong className="text-slate-700">Scheme:</strong> {project.scheme}</p>
@@ -55,8 +55,8 @@ const ResearchDetails: React.FC = () => {
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mt-4 text-blue-600 hover:underline"
-            style={{ color: COLORS.accent }}
+            className="inline-block mt-4 font-medium hover:underline"
+            style={{ color: COLORS.gradientAccent}}
           >
             View Official Link →
           </a>

@@ -39,7 +39,7 @@ const BookCard: React.FC<{ book: Book; idx: number }> = ({ book, idx }) => {
         </p>
 
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-base font-semibold" style={{ color: COLORS.accent }}>
+          <span className= {`text-base font-semibold ${COLORS.gradientText}`}>
             {book.price}
           </span>
           <button
@@ -47,8 +47,7 @@ const BookCard: React.FC<{ book: Book; idx: number }> = ({ book, idx }) => {
               e.stopPropagation();
               handleCardClick();
             }}
-            className="text-sm font-medium transition-colors"
-            style={{color : COLORS.accent}}
+            className={`text-sm font-medium transition-colors ${COLORS.gradientText}`}
           >
             Read More →
           </button>

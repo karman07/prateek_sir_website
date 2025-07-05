@@ -14,7 +14,7 @@ const PodcastList: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-slate-800">
-          Recent <span style={{ color: COLORS.accent }}>Talks & Podcasts</span>
+          Recent <span className={COLORS.gradientText}>Talks & Podcasts</span>
         </h2>
 
         <div className="flex flex-wrap justify-center gap-8 mb-10">
@@ -25,10 +25,7 @@ const PodcastList: React.FC = () => {
 
         <div className="mt-6">
           <button
-            className="px-6 py-2 rounded-lg text-sm font-medium text-white transition duration-300"
-            style={{
-              backgroundColor: COLORS.accent,
-            }}
+            className={`px-6 py-2 rounded-lg text-sm font-medium text-white transition duration-300 ${COLORS.gradientAccent}`}
             onClick={() => {
               navigate('/podcast');
             }}

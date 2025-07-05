@@ -114,7 +114,7 @@ const Testimonials: React.FC = () => {
                       </div>
                       <div>
                         <h4 className="font-semibold text-slate-800">{t.name}</h4>
-                        <p className="text-sm font-medium" style={{ color: COLORS.accent }}>
+                        <p className={`text-sm font-medium ${COLORS.gradientText}`}>
                           {t.role}
                         </p>
                       </div>

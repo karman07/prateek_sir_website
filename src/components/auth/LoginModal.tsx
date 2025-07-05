@@ -4,8 +4,8 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { firebaseApp } from '@/firebase/firebase';
 import { X } from 'lucide-react';
 import { FcGoogle } from 'react-icons/fc';
-import { COLORS } from '@/constants/colors';
 import { BASE_URL } from '@/constants/base';
+import { motion } from 'framer-motion';
 
 const auth = getAuth(firebaseApp);
 const provider = new GoogleAuthProvider();
@@ -19,8 +19,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [verifyDialog, setVerifyDialog] = useState(false);
-  const [verifyLink, setVerifyLink] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,28 +27,50 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
     setForm({ name: '', email: '', password: '' });
     setIsLogin(!isLogin);
     setMessage('');
-    setVerifyDialog(false);
   };
 
   const handleSubmit = async () => {
     setLoading(true);
     setMessage('');
-    setVerifyDialog(false);
     try {
-      const url = isLogin ? `${BASE_URL}/auth/login` : `${BASE_URL}/auth/register`;
-      const payload = isLogin
-        ? { email: form.email, password: form.password }
-        : {
-            ...form,
-            role: 'user',
-          };
-      const res = await axios.post(url, payload);
+      if (!isLogin) {
+        // First register
+        const registerRes = await axios.post(`${BASE_URL}/auth/register`, {
+          ...form,
+          role: 'user',
+        });
 
-      if (!isLogin && res.data?.emailVerificationLink) {
-        setVerifyLink(res.data.emailVerificationLink);
-        setVerifyDialog(true);
+        if (registerRes.data) {
+          // Now auto-login after registration
+          const loginRes = await axios.post(`${BASE_URL}/auth/login`, {
+            email: form.email,
+            password: form.password,
+          });
+
+          
+
+          // Optionally store token
+          localStorage.setItem('token', loginRes.data.accessToken);
+          localStorage.setItem('user', JSON.stringify(loginRes.data.user));
+
+          onClose(); // close modal
+          return;
+        }
       } else {
-        setMessage(res.data.message || 'Success');
+        // Login directly
+        const loginRes = await axios.post(`${BASE_URL}/auth/login`, {
+          email: form.email,
+          password: form.password,
+        });
+
+       
+
+        // Optionally store token
+        localStorage.setItem('token', loginRes.data.accessToken);
+        localStorage.setItem('user', JSON.stringify(loginRes.data.user));
+        console.log(loginRes.data.user)
+        onClose(); // close modal
+        return;
       }
     } catch (err: any) {
       setMessage(err?.response?.data?.message || 'Something went wrong');
@@ -61,12 +81,21 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
-    setVerifyDialog(false);
     try {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
-      const res = await axios.post(`${BASE_URL}/auth/firebase-login`, { idToken });
-      setMessage('Google login successful');
+
+      const res = await axios.post(`${BASE_URL}/auth/firebase-login`, {
+        idToken,
+      });
+
+
+
+      // Optionally store token
+      localStorage.setItem('token', res.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      console.log(JSON.stringify(res.data.user))
+      onClose(); // close modal
     } catch (err: any) {
       setMessage(err?.response?.data?.message || 'Google sign-in failed');
     } finally {
@@ -75,8 +104,15 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-[90%] max-w-xl p-10 relative">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 40 }}
+        transition={{ duration: 0.4 }}
+        className="bg-white rounded-xl shadow-2xl w-[90%] max-w-xl p-10 relative"
+      >
+        {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
           onClick={onClose}
@@ -84,17 +120,19 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
           <X size={24} />
         </button>
 
-        <h2 className="text-2xl font-semibold text-center mb-6 text-slate-800">
+        {/* Heading */}
+        <h2 className="text-2xl font-bold text-center mb-6 text-slate-800">
           {isLogin ? 'Login to your account' : 'Create a new account'}
         </h2>
 
+        {/* Form */}
         <div className="grid gap-5">
           {!isLogin && (
             <input
               type="text"
               name="name"
               placeholder="Full Name"
-              className="w-full px-5 py-3 border border-gray-300 rounded-lg text-base outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              className="w-full px-5 py-3 border border-slate-300 rounded-lg text-base text-slate-800 outline-none focus:ring-2 focus:ring-blue-400 transition-all"
               value={form.name}
               onChange={handleChange}
             />
@@ -103,7 +141,7 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
             type="email"
             name="email"
             placeholder="Email"
-            className="w-full px-5 py-3 border border-gray-300 rounded-lg text-base outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="w-full px-5 py-3 border border-slate-300 rounded-lg text-base text-slate-800 outline-none focus:ring-2 focus:ring-blue-400 transition-all"
             value={form.email}
             onChange={handleChange}
           />
@@ -111,62 +149,60 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
             type="password"
             name="password"
             placeholder="Password"
-            className="w-full px-5 py-3 border border-gray-300 rounded-lg text-base outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            className="w-full px-5 py-3 border border-slate-300 rounded-lg text-base text-slate-800 outline-none focus:ring-2 focus:ring-blue-400 transition-all"
             value={form.password}
             onChange={handleChange}
           />
         </div>
 
-        <button
-          className="w-full mt-6 py-3 rounded-lg font-medium text-white transition duration-300 text-lg"
+        {/* Submit Button */}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          className="w-full mt-6 py-3 rounded-lg font-semibold text-white text-lg shadow-md transition-all"
           style={{
-            backgroundColor: COLORS.primaryBg,
+            background: 'linear-gradient(to right, #3b82f6, #6366f1)',
             opacity: loading ? 0.7 : 1,
           }}
           onClick={handleSubmit}
           disabled={loading}
         >
           {loading ? 'Processing...' : isLogin ? 'Login' : 'Register'}
-        </button>
+        </motion.button>
 
-        <button
-          className="mt-4 w-full border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-100 text-base flex items-center justify-center gap-2"
+        {/* Google Auth */}
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          className="mt-4 w-full border border-gray-300 text-slate-700 py-3 rounded-lg hover:bg-slate-100 text-base flex items-center justify-center gap-2"
           onClick={handleGoogleLogin}
           disabled={loading}
         >
           <FcGoogle className="text-xl" />
           Continue with Google
-        </button>
+        </motion.button>
 
-        <div className="mt-4 text-center text-sm text-gray-500">
+        {/* Toggle */}
+        <div className="mt-4 text-center text-sm text-slate-500">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
           <span
-            className="text-blue-600 hover:underline cursor-pointer"
+            className="text-blue-600 hover:underline cursor-pointer font-medium"
             onClick={toggleMode}
           >
             {isLogin ? 'Register' : 'Login'}
           </span>
         </div>
 
+        {/* Message */}
         {message && (
-          <p className="mt-4 text-center text-sm text-red-500">{message}</p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-4 text-center text-sm font-medium text-red-600"
+          >
+            {message}
+          </motion.p>
         )}
-
-        {verifyDialog && (
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-md text-sm">
-            A verification email has been sent to your email address. Please verify to activate your account.
-            <br />
-            <a
-              href={verifyLink}
-              className="text-blue-600 underline mt-1 inline-block"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Click here to open verification link
-            </a>
-          </div>
-        )}
-      </div>
+      </motion.div>
     </div>
   );
 };

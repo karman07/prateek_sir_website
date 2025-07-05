@@ -68,7 +68,7 @@ const AllResearchPage: React.FC = () => {
                 <button
                   onClick={() => navigate(`/research/${item._id}`)}
                   className="text-sm font-medium hover:underline"
-                  style={{ color: COLORS.accent }}
+                  style={{ color: COLORS.gradientAccent}}
                 >
                   Learn More →
                 </button>

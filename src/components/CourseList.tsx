@@ -14,7 +14,7 @@ const CourseList: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 text-slate-800">
-          My Online <span style={{ color: COLORS.accent }}>Courses</span>
+          My Online <span className={COLORS.gradientText}>Courses</span>
         </h2>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 place-items-center">
@@ -26,8 +26,7 @@ const CourseList: React.FC = () => {
         <div className="mt-10 text-center">
           <button
             onClick={() => { navigate('/courses') }}
-            className="inline-block text-white px-6 py-2 rounded-lg text-sm font-medium transition"
-            style={{ backgroundColor: COLORS.accent }}
+            className={` ${COLORS.gradientAccent} inline-block text-white px-6 py-2 rounded-lg text-sm font-medium transition`}
           >
             View More Courses →
           </button>

@@ -99,7 +99,7 @@ const Statistics: React.FC = () => {
               dataKey="value"
               stroke={COLORS.accent}
               strokeWidth={3}
-              dot={{ fill: COLORS.accent }}
+              dot={{ fill: COLORS.gradientAccent}}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -116,7 +116,7 @@ const Statistics: React.FC = () => {
     >
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h2 className="text-3xl sm:text-4xl font-bold">
-          My <span style={{ color: COLORS.accent }}>Statistics</span>
+          My <span className={COLORS.gradientText}>Statistics</span>
         </h2>
         <p className="text-sm sm:text-base mt-2 text-slate-300 max-w-xl mx-auto">
           An overview of contributions in academia, research, and student mentorship.
