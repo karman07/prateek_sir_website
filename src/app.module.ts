@@ -8,12 +8,13 @@ import { MailerService } from './utils/mailer.service';
 import { MailerModule } from './utils/mailer.module';
 import { CoursesModule } from './course/courses.module';
 import { BooksModule } from './books/books.module';
+import { ResearchProjectModule } from './research/research-project.module';
+import { PodcastModule } from './podcast/podcast.module';
+
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // .env variables available everywhere
-
-    // Mongoose setup with dynamic config
+    ConfigModule.forRoot({ isGlobal: true }), 
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('MONGO_URI') || 'mongodb+srv://karmansingharora01:8813917626@cluster0.mbj5enl.mongodb.net/',
@@ -26,7 +27,9 @@ import { BooksModule } from './books/books.module';
     UsersModule,
     MailerModule,
     CoursesModule,
-    BooksModule
+    BooksModule,
+    ResearchProjectModule,
+    PodcastModule
   ]
 })
 export class AppModule {}

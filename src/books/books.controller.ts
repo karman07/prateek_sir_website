@@ -7,13 +7,18 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { RolesAllowed } from '../auth/roles.enum';
+import { multerOptions } from '../utils/multer-options.util';
+import { Express } from 'express';
 
 @Controller('books')
 export class BooksController {
@@ -22,8 +27,13 @@ export class BooksController {
   @Post()
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
-  create(@Body() dto: CreateBookDto) {
-    return this.booksService.create(dto);
+  @UseInterceptors(FileInterceptor('image', multerOptions))
+  create(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() dto: CreateBookDto,
+  ) {
+    const imagePath = file ? process.env.BASE_URL + '/uploads/' + file.filename : '';
+    return this.booksService.create({ ...dto, image: imagePath });
   }
 
   @Get()
@@ -39,8 +49,14 @@ export class BooksController {
   @Patch(':id')
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
-  update(@Param('id') id: string, @Body() dto: UpdateBookDto) {
-    return this.booksService.update(id, dto);
+  @UseInterceptors(FileInterceptor('image', multerOptions))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() dto: UpdateBookDto,
+  ) {
+    const imagePath = file ? process.env.BASE_URL + '/uploads/' + file.filename : null;
+    return this.booksService.update(id, dto, imagePath);
   }
 
   @Delete(':id')

@@ -16,6 +16,13 @@ export class Book {
 
   @Prop()
   image: string;
+
+  @Prop([String])
+  tableOfContents?: string[];
+
+  @Prop()
+  link?: string;
+
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

@@ -9,7 +9,6 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import * as admin from 'firebase-admin';
-import { UserDocument } from '../users/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -19,37 +18,41 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    // Check if user already exists in MongoDB
     const existing = await this.usersService.findByEmail(dto.email);
     if (existing) throw new ConflictException('Email already exists');
 
-    // Create user in Firebase
     const fbUser = await admin.auth().createUser({
       email: dto.email,
       password: dto.password,
       displayName: dto.name,
     });
 
-    // Send Firebase email verification
-    const verifyLink = await admin
-      .auth()
-      .generateEmailVerificationLink(dto.email);
-    console.log('🔗 Email verification link:', verifyLink);
-
-    // Create user in MongoDB
     const user = await this.usersService.create({
       name: dto.name,
       email: dto.email,
       password: dto.password,
       role: dto.role || 'user',
-      verified: false,
+      verified: true, // ✅ assume verified since we're skipping email verification
       firebaseUid: fbUser.uid,
     });
 
+    const payload = {
+      sub: user._id.toString(),
+      email: user.email,
+      role: user.role,
+    };
+    const token = this.jwtService.sign(payload);
+
     return {
-      message: 'Registered successfully. Please verify your email.',
-      firebaseUID: fbUser.uid,
-      emailVerificationLink: verifyLink,
+      message: 'Registered successfully. Now you can Login',
+      accessToken: token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        verified: user.verified,
+      },
     };
   }
 
@@ -57,21 +60,6 @@ export class AuthService {
     const user = await this.usersService.findByEmail(dto.email);
     if (!user || !(await bcrypt.compare(dto.password, user.password))) {
       throw new UnauthorizedException('Invalid credentials');
-    }
-
-    const fbUser = await admin.auth().getUserByEmail(dto.email);
-    if (!fbUser.emailVerified) {
-      const verifyLink = await admin
-        .auth()
-        .generateEmailVerificationLink(dto.email);
-      throw new UnauthorizedException(
-        `Email not verified. New verification link sent.\nLink: ${verifyLink}`,
-      );
-    }
-
-    if (!user.verified) {
-      user.verified = true;
-      await user.save();
     }
 
     const payload = {
@@ -104,42 +92,52 @@ export class AuthService {
     };
   }
 
-  async firebaseLogin(idToken: string) {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    const fbUser = await admin.auth().getUser(decodedToken.uid);
+ async firebaseLogin(idToken: string) {
+  // Verify Firebase ID token
+  const decodedToken = await admin.auth().verifyIdToken(idToken);
+  const fbUser = await admin.auth().getUser(decodedToken.uid);
 
-    if (!fbUser.emailVerified) {
-      throw new UnauthorizedException('Please verify your email first.');
-    }
+  // Check if user exists in our DB
+  let user = await this.usersService.findByEmail(fbUser.email);
 
-    let user = await this.usersService.findByEmail(fbUser.email);
-    if (!user) {
-      throw new UnauthorizedException('User not found in database');
-    }
+  // If not, register them
+  if (!user) {
+    user = await this.usersService.create({
+      name: fbUser.displayName || 'Google User',
+      email: fbUser.email,
+      password: '', // no password since it's Google login
+      role: 'user',
+      verified: true,
+      firebaseUid: fbUser.uid,
+    });
+  }
 
-    if (!user.verified) {
-      user.verified = true;
-      await user.save();
-    }
+  // Ensure user is marked as verified
+  if (!user.verified) {
+    user.verified = true;
+    await user.save();
+  }
 
-    const payload = {
-      sub: user._id.toString(),
+  // Generate JWT token
+  const payload = {
+    sub: user._id.toString(),
+    email: user.email,
+    role: user.role,
+  };
+  const token = this.jwtService.sign(payload);
+
+  return {
+    accessToken: token,
+    user: {
+      _id: user._id,
+      name: user.name,
       email: user.email,
       role: user.role,
-    };
-    const token = this.jwtService.sign(payload);
-
-    return {
-      accessToken: token,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        verified: user.verified,
-      },
-    };
-  }
+      verified: user.verified,
+    },
+    message: 'Google sign-in successful',
+  };
+}
 
   async resetPassword(token: string, newPassword: string) {
     return {
@@ -151,7 +149,7 @@ export class AuthService {
   async verifyEmail(token: string) {
     return {
       message:
-        'Email verification is handled via Firebase. Use the link sent to your email.',
+        'Email verification is handled via Firebase. This route is disabled in current flow.',
     };
   }
 
