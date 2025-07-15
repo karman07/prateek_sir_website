@@ -10,6 +10,12 @@ import { CoursesModule } from './course/courses.module';
 import { BooksModule } from './books/books.module';
 import { ResearchProjectModule } from './research/research-project.module';
 import { PodcastModule } from './podcast/podcast.module';
+import { WorkshopsModule } from './workshops/workshops.module';
+import { AdminPosition } from './admin-positions/schemas/admin-position.schema';
+import { ChapterModule } from './chapter/chapter.module';
+import { Journal } from './journal/journal.schema';
+import { JournalsModule } from './journal/journals.module';
+import { AdminPositionsModule } from './admin-positions/admin-positions.module';
 
 
 @Module({
@@ -21,15 +27,17 @@ import { PodcastModule } from './podcast/podcast.module';
       }),
       inject: [ConfigService],
     }),
-
-    // Your feature modules
     AuthModule,
     UsersModule,
     MailerModule,
     CoursesModule,
     BooksModule,
     ResearchProjectModule,
-    PodcastModule
+    PodcastModule,
+    WorkshopsModule,
+    AdminPositionsModule,
+    ChapterModule,
+    JournalsModule
   ]
 })
 export class AppModule {}
