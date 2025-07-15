@@ -1,4 +1,3 @@
-// src/auth/auth.module.ts
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -17,7 +16,6 @@ import { MailerModule } from 'src/utils/mailer.module';
       useFactory: jwtConfig,
       inject: [ConfigService],
     }),
-    // Use forwardRef to break circular dependency
     forwardRef(() => UsersModule),
   ],
   providers: [AuthService],
