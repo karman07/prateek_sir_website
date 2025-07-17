@@ -18,6 +18,7 @@ import { extname } from 'path';
 import { RolesAllowed } from 'src/auth/roles.enum';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RoleGuard } from 'src/auth/guards/role.guard';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('chapters')
 export class ChapterController {
