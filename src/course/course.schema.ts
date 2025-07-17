@@ -24,7 +24,7 @@ export class Course {
   level: string;
 
   @Prop({ required: true })
-  lessons: number;
+  lessons: string;
 
   @Prop()
   badge?: string;

@@ -6,7 +6,7 @@ export class CreateCourseDto {
   @IsString() instructor: string;
   @IsString() duration: string;
   @IsString() level: string;
-  @IsNumber() lessons: number;
+  @IsString() lessons: string;
   @IsOptional() @IsString() badge?: string;
   @IsOptional() @IsString() link?: string;
 }

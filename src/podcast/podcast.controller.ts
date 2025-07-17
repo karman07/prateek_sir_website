@@ -1,5 +1,13 @@
 import {
-  Controller, Get, Post, Body, Patch, Param, Delete, UseGuards
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PodcastService } from './podcast.service';
 import { CreatePodcastDto } from './dto/create-podcast.dto';
@@ -7,15 +15,16 @@ import { UpdatePodcastDto } from './dto/update-podcast.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { RoleGuard } from '../auth/guards/role.guard';
 import { RolesAllowed } from '../auth/roles.enum';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('podcasts')
-
 export class PodcastController {
   constructor(private readonly podcastService: PodcastService) {}
 
   @Post()
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
+  @UseInterceptors(FileInterceptor('file')) // Optional if uploading a file
   create(@Body() dto: CreatePodcastDto) {
     return this.podcastService.create(dto);
   }
