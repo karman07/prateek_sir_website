@@ -142,8 +142,8 @@ const Statistics: React.FC = () => {
         ))}
       </div>
 
-      {/* Toggle Buttons */}
-      <div className="flex justify-center gap-4 mt-12 flex-wrap">
+    
+      {/* <div className="flex justify-center gap-4 mt-12 flex-wrap">
         {chartTypes.map((type) => (
           <button
             key={type}
@@ -159,10 +159,9 @@ const Statistics: React.FC = () => {
         ))}
       </div>
 
-      {/* Chart Display */}
       <div className="mt-10 w-full h-[300px]">
         {renderChart()}
-      </div>
+      </div> */}
     </section>
   );
 };

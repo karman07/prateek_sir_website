@@ -1,4 +1,6 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '@/constants/base';
 
 type Student = {
   _id: string;
@@ -6,10 +8,10 @@ type Student = {
   thesisTitle: string;
   degree: 'PhD' | 'Masters';
   year: string;
-  image: string;
+  image?: string; 
 };
 
-const students: Student[] = [
+const staticStudents: Student[] = [
   {
     _id: '1',
     name: 'Mr. Varinderpal Singh',
@@ -56,7 +58,7 @@ const students: Student[] = [
     thesisTitle: 'Morphology and Case Marking for UNL-Punjabi Deconverter',
     degree: 'Masters',
     year: '2007',
-    image: 'https://randomuser.me/api/portraits/women/51.jpg',
+    image: '',
   },
   {
     _id: '7',
@@ -71,6 +73,26 @@ const students: Student[] = [
 const StudentContext = createContext<Student[]>([]);
 
 export const StudentProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [students, setStudents] = useState<Student[]>(staticStudents);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await axios.get<Student[]>(`${BASE_URL}/students`);
+        if (res.data && res.data.length > 0) {
+          setStudents(res.data);
+        } else {
+          console.warn('No student data from API, using static data.');
+        }
+      } catch (error) {
+        console.error('Error fetching students from API:', error);
+        // fallback to static data
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
   return <StudentContext.Provider value={students}>{children}</StudentContext.Provider>;
 };
 

@@ -5,15 +5,18 @@ type Props = {
   thesisTitle: string;
   degree: 'PhD' | 'Masters';
   year: string;
-  image: string;
+  image?: string; 
 };
 
 const StudentCard: React.FC<Props> = ({ name, thesisTitle, degree, year, image }) => {
+  const placeholderImage =
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/500px-Unknown_person.jpg';
+
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-md p-5 hover:shadow-xl transition-all">
       <div className="flex items-center gap-4 mb-4">
         <img
-          src={image}
+          src={image?.trim() ? image : placeholderImage}
           alt={name}
           className="w-16 h-16 object-cover rounded-full border-2 border-blue-200"
         />

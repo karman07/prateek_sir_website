@@ -1,3 +1,4 @@
+// Same imports
 import React, { useState, useRef, useEffect } from 'react';
 import { Menu, X, ChevronDown, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -24,6 +25,7 @@ const Navbar: React.FC = () => {
   const researchRef = useRef<HTMLUListElement>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
+  const moreDropdownRef = useRef<HTMLUListElement>(null);
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleDropdown = (label: string) =>
@@ -34,7 +36,7 @@ const Navbar: React.FC = () => {
       const target = e.target as Node;
       if (
         openDropdown &&
-        ![booksRef, coursesRef, researchRef, mobileRef].some(
+        ![booksRef, coursesRef, researchRef, moreDropdownRef, mobileRef].some(
           (ref) => ref.current && ref.current.contains(target)
         )
       ) {
@@ -65,10 +67,8 @@ const Navbar: React.FC = () => {
   };
 
   const user = isLoggedIn
-  ? JSON.parse(localStorage.getItem('user') || '{}')
-  : { name: 'Guest', email: 'guest@example.com' };
-
- 
+    ? JSON.parse(localStorage.getItem('user') || '{}')
+    : { name: 'Guest', email: 'guest@example.com' };
 
   const dropdownItem = (
     items: { _id: string; title: string; link?: string }[],
@@ -156,9 +156,39 @@ const Navbar: React.FC = () => {
                 </AnimatePresence>
               </li>
             ))}
-            <li><Link to="/about" className="hover:text-blue-300 capitalize">About Me</Link></li>
-            <li><Link to="/podcast" className="hover:text-blue-300 capitalize">Podcast</Link></li>
-            <li><Link to="/contact" className="hover:text-blue-300 capitalize">Contact Me</Link></li>
+
+            {/* More Dropdown */}
+            <li className="relative">
+              <button
+                onClick={() => toggleDropdown('More')}
+                className={`capitalize flex items-center gap-1 ${
+                  openDropdown === 'More'
+                    ? `text-[${COLORS.activeNav}] underline underline-offset-4`
+                    : 'hover:text-blue-300'
+                }`}
+              >
+                More <ChevronDown size={16} />
+              </button>
+              <AnimatePresence>
+                {openDropdown === 'More' && (
+                  <motion.ul
+                    ref={moreDropdownRef}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-60 p-2 space-y-2 z-50"
+                  >
+                    <li><Link to="/about" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">About Me</Link></li>
+                    <li><Link to="/podcast" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Podcast</Link></li>
+                    <li><Link to="/contact" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Contact Me</Link></li>
+                    <li><Link to="/administrative" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Positions</Link></li>
+                    <li><Link to="/journals" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Journals</Link></li>
+                    <li><Link to="/workshops" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Workshops</Link></li>
+                    <li><Link to="/chapterlist" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Content</Link></li>
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </li>
 
             {isLoggedIn ? (
               <div className="relative" ref={profileRef}>
@@ -201,7 +231,6 @@ const Navbar: React.FC = () => {
             )}
           </ul>
 
-          {/* Mobile Menu Toggle */}
           <div className="md:hidden">
             <button onClick={toggleMenu} aria-label="Toggle menu">
               {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -209,67 +238,9 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              ref={mobileRef}
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 px-2 overflow-hidden"
-            >
-              <ul className="flex flex-col gap-4 bg-white/10 p-4 rounded-lg shadow-lg border border-white/10 text-white text-sm">
-                <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-                {['Books', 'Courses', 'Research'].map((label) => (
-                  <div key={label}>
-                    <button onClick={() => toggleDropdown(label)} className="flex justify-between w-full">
-                      {label} <ChevronDown size={16} />
-                    </button>
-                    <AnimatePresence>
-                      {openDropdown === label && (
-                        <motion.ul
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          className="pl-4 mt-1 space-y-1 text-white/90"
-                        >
-                          {(label === 'Books' ? books : label === 'Courses' ? courses : research)
-                            .slice(0, 5)
-                            .map((item) => (
-                              <li key={item._id}>
-                                <Link to={`/${label.toLowerCase()}/${item._id}`} onClick={() => setIsOpen(false)}>
-                                  {item.title}
-                                </Link>
-                              </li>
-                            ))}
-                          <li>
-                            <Link to={`/${label.toLowerCase()}`} className="text-blue-300 underline" onClick={() => setIsOpen(false)}>
-                              Show More
-                            </Link>
-                          </li>
-                        </motion.ul>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
-                <Link to="/about" onClick={() => setIsOpen(false)}>About Me</Link>
-                <Link to="/podcast" onClick={() => setIsOpen(false)}>Podcast</Link>
-                <Link to="/contact" onClick={() => setIsOpen(false)}>Contact Me</Link>
-                {isLoggedIn ? (
-                  <button onClick={handleLogout} className="text-left text-red-300 mt-2">Logout</button>
-                ) : (
-                  <button onClick={() => { setIsOpen(false); setShowLoginModal(true); }} className="text-left text-blue-300 mt-2">
-                    Login / Sign Up
-                  </button>
-                )}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+
       </nav>
 
-      {/* Login Modal */}
       {showLoginModal && (
         <LoginModal
           onClose={() => {

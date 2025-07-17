@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useBooks } from '@/contexts/BooksContext';
 import { motion } from 'framer-motion';
 import { COLORS } from '@/constants/colors';
-import { BookOpen, ArrowRight } from 'lucide-react';
+import { BookOpen, ArrowRight, Unlock } from 'lucide-react';
 
 const BookDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +26,10 @@ const BookDetails: React.FC = () => {
     ? book.tableOfContents
     : book.tableOfContents?.slice(0, 5);
 
+  const handleFreeAccess = () => {
+    navigate(`/chapterlist/bookName=${encodeURIComponent(book.title)}`);
+  };
+
   return (
     <div className="bg-gradient-to-br from-white to-slate-100 min-h-screen py-16 px-4 sm:px-8">
       <div className="max-w-6xl mx-auto space-y-20">
@@ -36,7 +40,6 @@ const BookDetails: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* ✅ Fixed Book Cover */}
           <div className="w-full max-h-[500px] aspect-[3/4] relative bg-white rounded-2xl shadow-2xl overflow-hidden mt-4">
             <img
               src={book.image}
@@ -54,6 +57,7 @@ const BookDetails: React.FC = () => {
                 {book.description}
               </p>
             </div>
+
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <p className={`text-xl font-semibold ${COLORS.gradientText}`}>
                 Price: {book.price}
@@ -67,6 +71,15 @@ const BookDetails: React.FC = () => {
                 Buy Now
               </a>
             </div>
+
+            {/* 👇 Free Sample Button */}
+            <button
+              onClick={handleFreeAccess}
+              className="mt-4 inline-flex items-center gap-2 px-5 py-2 rounded-xl font-medium bg-slate-100 hover:bg-slate-200 border border-slate-300 transition text-slate-700"
+            >
+              <Unlock className="w-5 h-5" />
+              Try Free Sample Chapter
+            </button>
           </div>
         </motion.div>
 
@@ -79,7 +92,7 @@ const BookDetails: React.FC = () => {
             <ul className="space-y-3 pl-4 list-none">
               {visibleContents?.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-slate-600 text-base">
-                  <span className="w-2 h-2 mt-2 rounded-full" style={{ backgroundColor: COLORS.gradientAccent}} />
+                  <span className="w-2 h-2 mt-2 rounded-full" style={{ backgroundColor: COLORS.gradientAccent }} />
                   {item}
                 </li>
               ))}
@@ -125,7 +138,6 @@ const BookDetails: React.FC = () => {
                 className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 cursor-pointer"
                 onClick={() => navigate(`/books/${similar._id}`)}
               >
-                {/* ✅ Fixed Similar Book Image */}
                 <div className="h-48 w-full relative bg-white overflow-hidden">
                   <img
                     src={similar.image}
@@ -133,7 +145,6 @@ const BookDetails: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-contain p-2"
                   />
                 </div>
-
                 <div className="p-4 space-y-2">
                   <h3 className="text-lg font-semibold" style={{ color: COLORS.primaryBg }}>
                     {similar.title}
