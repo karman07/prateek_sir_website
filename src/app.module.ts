@@ -16,6 +16,9 @@ import { ChapterModule } from './chapter/chapter.module';
 import { Journal } from './journal/journal.schema';
 import { JournalsModule } from './journal/journals.module';
 import { AdminPositionsModule } from './admin-positions/admin-positions.module';
+import { StudentsModule } from './students/students.module';
+import { TestimonialModule } from './testimonials/testimonial.module';
+import { SubscribeModule } from './subscribe/subscribe.module';
 
 
 @Module({
@@ -37,7 +40,10 @@ import { AdminPositionsModule } from './admin-positions/admin-positions.module';
     WorkshopsModule,
     AdminPositionsModule,
     ChapterModule,
-    JournalsModule
+    JournalsModule,
+    StudentsModule,
+    TestimonialModule,
+    SubscribeModule
   ]
 })
 export class AppModule {}
