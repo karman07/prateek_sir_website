@@ -1,9 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { COLORS } from '../constants/colors';
 import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import { BASE_URL } from '@/constants/base';
 
 const Contact: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('email', formData.email);
+    data.append('subject', formData.subject);
+    data.append('message', formData.message);
+
+    try {
+      const res = await fetch(`${BASE_URL}/contact`, {
+        method: 'POST',
+        body: data,
+      });
+
+      if (!res.ok) throw new Error('Failed to send message');
+
+      alert('✅ Message sent successfully!');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (err) {
+      alert('❌ Failed to send message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-white py-20 px-6 md:px-24 mt-16">
       <motion.h2
@@ -18,34 +59,28 @@ const Contact: React.FC = () => {
       <div className="grid md:grid-cols-2 gap-12 items-start">
         {/* Contact Form */}
         <motion.form
+          onSubmit={handleSubmit}
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
           className="bg-[#f8fafc] p-8 rounded-2xl shadow-xl space-y-6"
         >
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[${COLORS.accent}] bg-white"
-              placeholder="Your name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[${COLORS.accent}] bg-white"
-              placeholder="Your email"
-            />
-          </div>
+          {['name', 'email', 'subject'].map((field) => (
+            <div key={field}>
+              <label htmlFor={field} className="block text-sm font-medium text-slate-700 mb-1 capitalize">
+                {field}
+              </label>
+              <input
+                type={field === 'email' ? 'email' : 'text'}
+                id={field}
+                value={formData[field as keyof typeof formData]}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[${COLORS.accent}] bg-white`}
+                placeholder={`Your ${field}`}
+                required
+              />
+            </div>
+          ))}
 
           <div>
             <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">
@@ -54,16 +89,20 @@ const Contact: React.FC = () => {
             <textarea
               id="message"
               rows={5}
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[${COLORS.accent}] bg-white"
+              value={formData.message}
+              onChange={handleChange}
+              className={`w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[${COLORS.accent}] bg-white`}
               placeholder="Your message"
+              required
             ></textarea>
           </div>
 
           <button
             type="submit"
+            disabled={submitting}
             className="w-full bg-[#0B1F3A] hover:bg-[#4EA8DE] text-white font-medium py-3 rounded-xl transition"
           >
-            Send Message
+            {submitting ? 'Sending...' : 'Send Message'}
           </button>
         </motion.form>
 

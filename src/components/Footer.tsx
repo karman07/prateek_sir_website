@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { COLORS } from '@/constants/colors';
+import { BASE_URL } from '@/constants/base';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ const Footer: React.FC = () => {
     if (!email.trim()) return alert('Please enter a valid email');
 
     try {
-      await axios.post('http://localhost:3000/subscribe', { email }); // adjust URL if needed
+      await axios.post(`${BASE_URL}/subscribe`, { email }); 
       localStorage.setItem('subscribed', 'true');
       setIsSubscribed(true);
     } catch (error) {
