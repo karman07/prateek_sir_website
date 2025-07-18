@@ -19,6 +19,7 @@ import { AdminPositionsModule } from './admin-positions/admin-positions.module';
 import { StudentsModule } from './students/students.module';
 import { TestimonialModule } from './testimonials/testimonial.module';
 import { SubscribeModule } from './subscribe/subscribe.module';
+import { ContactModule } from './contact/contact.module';
 
 
 @Module({
@@ -43,7 +44,8 @@ import { SubscribeModule } from './subscribe/subscribe.module';
     JournalsModule,
     StudentsModule,
     TestimonialModule,
-    SubscribeModule
+    SubscribeModule,
+    ContactModule
   ]
 })
 export class AppModule {}
