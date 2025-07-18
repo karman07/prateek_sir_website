@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  LineChart,
-  Line,
-  YAxis,
-  CartesianGrid,
-} from 'recharts';
-import { COLORS,COLORS_PIE } from '@/constants/colors';
+// import {
+//   BarChart,
+//   Bar,
+//   XAxis,
+//   Tooltip,
+//   ResponsiveContainer,
+//   PieChart,
+//   Pie,
+//   Cell,
+//   Legend,
+//   LineChart,
+//   Line,
+//   YAxis,
+//   CartesianGrid,
+// } from 'recharts';
+import { COLORS } from '@/constants/colors';
 
 const stats = [
   { label: 'Startups', value: 750 },
@@ -26,88 +26,88 @@ const stats = [
   { label: 'Students', value: 1000 },
 ];
 
-const chartTypes = ['Bar Chart', 'Pie Chart', 'Line Chart'];
+// const chartTypes = ['Bar Chart', 'Pie Chart', 'Line Chart'];
 
 const Statistics: React.FC = () => {
-  const [selectedChart, setSelectedChart] = useState('Bar Chart');
+  // const [selectedChart, setSelectedChart] = useState('Bar Chart');
 
-  const renderChart = () => {
-    if (selectedChart === 'Bar Chart') {
-      return (
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={stats}>
-            <XAxis dataKey="label" stroke={COLORS.textMuted} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: COLORS.primaryBg,
-                border: 'none',
-                color: '#fff',
-              }}
-            />
-            <Bar dataKey="value" fill={COLORS.accent} radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      );
-    }
+  // const renderChart = () => {
+  //   if (selectedChart === 'Bar Chart') {
+  //     return (
+  //       <ResponsiveContainer width="100%" height="100%">
+  //         <BarChart data={stats}>
+  //           <XAxis dataKey="label" stroke={COLORS.textMuted} />
+  //           <Tooltip
+  //             contentStyle={{
+  //               backgroundColor: COLORS.primaryBg,
+  //               border: 'none',
+  //               color: '#fff',
+  //             }}
+  //           />
+  //           <Bar dataKey="value" fill={COLORS.accent} radius={[6, 6, 0, 0]} />
+  //         </BarChart>
+  //       </ResponsiveContainer>
+  //     );
+  //   }
 
-    if (selectedChart === 'Pie Chart') {
-      return (
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart>
-            <Pie
-              data={stats}
-              dataKey="value"
-              nameKey="label"
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              label
-            >
-              {stats.map((_, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
-              ))}
-            </Pie>
-            <Legend />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: COLORS.primaryBg,
-                border: 'none',
-                color: '#fff',
-              }}
-            />
-          </PieChart>
-        </ResponsiveContainer>
-      );
-    }
+  //   if (selectedChart === 'Pie Chart') {
+  //     return (
+  //       <ResponsiveContainer width="100%" height="100%">
+  //         <PieChart>
+  //           <Pie
+  //             data={stats}
+  //             dataKey="value"
+  //             nameKey="label"
+  //             cx="50%"
+  //             cy="50%"
+  //             outerRadius={100}
+  //             label
+  //           >
+  //             {stats.map((_, index) => (
+  //               <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
+  //             ))}
+  //           </Pie>
+  //           <Legend />
+  //           <Tooltip
+  //             contentStyle={{
+  //               backgroundColor: COLORS.primaryBg,
+  //               border: 'none',
+  //               color: '#fff',
+  //             }}
+  //           />
+  //         </PieChart>
+  //       </ResponsiveContainer>
+  //     );
+  //   }
 
-    if (selectedChart === 'Line Chart') {
-      return (
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={stats}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="label" stroke={COLORS.textMuted} />
-            <YAxis stroke={COLORS.textMuted} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: COLORS.primaryBg,
-                border: 'none',
-                color: '#fff',
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke={COLORS.accent}
-              strokeWidth={3}
-              dot={{ fill: COLORS.gradientAccent}}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      );
-    }
+  //   if (selectedChart === 'Line Chart') {
+  //     return (
+  //       <ResponsiveContainer width="100%" height="100%">
+  //         <LineChart data={stats}>
+  //           <CartesianGrid strokeDasharray="3 3" />
+  //           <XAxis dataKey="label" stroke={COLORS.textMuted} />
+  //           <YAxis stroke={COLORS.textMuted} />
+  //           <Tooltip
+  //             contentStyle={{
+  //               backgroundColor: COLORS.primaryBg,
+  //               border: 'none',
+  //               color: '#fff',
+  //             }}
+  //           />
+  //           <Line
+  //             type="monotone"
+  //             dataKey="value"
+  //             stroke={COLORS.accent}
+  //             strokeWidth={3}
+  //             dot={{ fill: COLORS.gradientAccent}}
+  //           />
+  //         </LineChart>
+  //       </ResponsiveContainer>
+  //     );
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
   return (
     <section
