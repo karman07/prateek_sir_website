@@ -11,7 +11,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ContactService } from './contact.service';
 
-@Controller('contacts')
+@Controller('contact')
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
@@ -31,12 +31,11 @@ export class ContactController {
     @UploadedFile() file: Express.Multer.File,
     @Body() body: any,
   ) {
-    const { name, email, phone, message } = body;
+    const { name, email, message } = body;
 
     return this.contactService.create({
       name,
       email,
-      phone,
       message,
       fileUrl: file ? `/uploads/contacts/${file.filename}` : null,
     });
