@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Patch,
 } from '@nestjs/common';
 import { JournalsService } from './journals.service';
 import { CreateJournalDto } from './create-journal.dto';
@@ -37,7 +38,7 @@ export class JournalsController {
     return this.service.findAll();
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
   @UseInterceptors(AnyFilesInterceptor())

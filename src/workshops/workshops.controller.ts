@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Patch,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { WorkshopsService } from './workshops.service';
@@ -38,7 +39,7 @@ export class WorkshopsController {
     return this.service.findAll();
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
   @UseInterceptors(AnyFilesInterceptor())

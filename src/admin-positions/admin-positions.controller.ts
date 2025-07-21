@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFiles,
+  Patch,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { AdminPositionsService } from './admin-positions.service';
@@ -37,7 +38,7 @@ export class AdminPositionsController {
     return this.service.findAll();
   }
 
-  @Put(':id')
+  @Patch(':id')
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
   @UseInterceptors(AnyFilesInterceptor())

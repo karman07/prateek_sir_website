@@ -12,6 +12,7 @@ import {
   FileTypeValidator,
   UploadedFiles,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -67,7 +68,7 @@ export class StudentsController {
 
   @UseGuards(AuthGuard, RoleGuard)
   @RolesAllowed('admin', 'superadmin')
-  @Put(':id')
+  @Patch(':id')
   @UseInterceptors(FileInterceptor('image', { storage }))
   async update(
     @Param('id') id: string,
