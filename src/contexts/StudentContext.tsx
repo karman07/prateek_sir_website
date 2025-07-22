@@ -18,7 +18,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'Word Sense Disambiguation for Punjabi Language',
     degree: 'PhD',
     year: '2013',
-    image: 'https://parteekbhatia.com/wp-content/uploads/2019/04/Cheque_2.jpg',
+    image: '',
   },
   {
     _id: '2',
@@ -26,7 +26,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'Blockchain for Secure Medical Records',
     degree: 'PhD',
     year: '2022',
-    image: 'https://randomuser.me/api/portraits/men/36.jpg',
+    image: '',
   },
   {
     _id: '3',
@@ -34,7 +34,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'Fake Content Detection System for Multimodal',
     degree: 'PhD',
     year: '2018',
-    image: 'https://parteekbhatia.com/wp-content/uploads/2019/04/1.jpg',
+    image: '',
   },
   {
     _id: '4',
@@ -42,7 +42,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'UNL Punjabi Deconverter',
     degree: 'Masters',
     year: '2006',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
+    image: '',
   },
   {
     _id: '5',
@@ -50,7 +50,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'A Multilingual Meaning Based Search Engine',
     degree: 'Masters',
     year: '2006',
-    image: 'https://randomuser.me/api/portraits/men/52.jpg',
+    image: '',
   },
   {
     _id: '6',
@@ -66,7 +66,7 @@ const staticStudents: Student[] = [
     thesisTitle: 'Punjabi Language Interface to Database',
     degree: 'Masters',
     year: '2007',
-    image: 'https://randomuser.me/api/portraits/women/51.jpg',
+    image: '',
   },
 ];
 
