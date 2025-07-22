@@ -120,7 +120,7 @@ const Navbar: React.FC = () => {
         style={{ backgroundColor: COLORS.overlay, color: COLORS.textPrimary }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between relative">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Prateek Bhatia</h1>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-wide">Parteek Bhatia</h1>
 
           {/* Desktop Nav */}
           <ul className="hidden md:flex gap-8 font-medium text-sm sm:text-base items-center">
