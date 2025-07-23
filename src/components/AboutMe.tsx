@@ -37,9 +37,7 @@ const AboutMe: React.FC = () => {
           </h2>
 
           <p className="text-base sm:text-lg mb-6 max-w-2xl text-slate-600">
-            I'm a passionate technologist, educator, and researcher dedicated to building meaningful digital
-            experiences. With a focus on innovation, I enjoy working on scalable projects that push the boundaries of
-            technology while empowering the next generation of creators.
+           Parteek Kumar is an Associate Professor at the School of Electrical Engineering and Computer Science, Washington State University, Pullman, WA, USA.Before joining WSU, he served as a professor at Thapar Institute of Engineering and Technology, Patiala, India, and as a visiting professor at Whitman College, Walla Walla, WA, USA, and the LAMBDA Lab at Tel Aviv University, Israel. Additionally, he held the position of Associate Dean of Student Affairs at Thapar Institute. He earned his doctorate from Thapar Institute and his master’s degree from BITS Pilani, India. He also completed postdoctoral research at Tel Aviv University, Israel.
           </p>
 
           <Button
