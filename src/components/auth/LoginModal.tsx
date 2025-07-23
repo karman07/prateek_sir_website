@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { firebaseApp } from '@/firebase/firebase';
+// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+// import { firebaseApp } from '@/firebase/firebase';
 import { X } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
+// import { FcGoogle } from 'react-icons/fc';
 import { BASE_URL } from '@/constants/base';
 import { motion } from 'framer-motion';
 
-const auth = getAuth(firebaseApp);
-const provider = new GoogleAuthProvider();
+// const auth = getAuth(firebaseApp);
+// const provider = new GoogleAuthProvider();
 
 interface Props {
   onClose: () => void;
@@ -79,29 +79,29 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken();
+  // const handleGoogleLogin = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const idToken = await result.user.getIdToken();
 
-      const res = await axios.post(`${BASE_URL}/auth/firebase-login`, {
-        idToken,
-      });
+  //     const res = await axios.post(`${BASE_URL}/auth/firebase-login`, {
+  //       idToken,
+  //     });
 
 
 
-      // Optionally store token
-      localStorage.setItem('token', res.data.accessToken);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      console.log(JSON.stringify(res.data.user))
-      onClose(); // close modal
-    } catch (err: any) {
-      setMessage(err?.response?.data?.message || 'Google sign-in failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // Optionally store token
+  //     localStorage.setItem('token', res.data.accessToken);
+  //     localStorage.setItem('user', JSON.stringify(res.data.user));
+  //     console.log(JSON.stringify(res.data.user))
+  //     onClose(); // close modal
+  //   } catch (err: any) {
+  //     setMessage(err?.response?.data?.message || 'Google sign-in failed');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -171,7 +171,7 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
         </motion.button>
 
         {/* Google Auth */}
-        <motion.button
+        {/* <motion.button
           whileTap={{ scale: 0.95 }}
           className="mt-4 w-full border border-gray-300 text-slate-700 py-3 rounded-lg hover:bg-slate-100 text-base flex items-center justify-center gap-2"
           onClick={handleGoogleLogin}
@@ -179,7 +179,7 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
         >
           <FcGoogle className="text-xl" />
           Continue with Google
-        </motion.button>
+        </motion.button> */}
 
         {/* Toggle */}
         <div className="mt-4 text-center text-sm text-slate-500">

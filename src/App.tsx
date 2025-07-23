@@ -84,6 +84,10 @@ const App: React.FC = () => {
                                 element={<Workshops />}
                               />
                               <Route
+                                path="/chapterlist"
+                                element={<ChapterListPage />}
+                              />
+                              <Route
                                 path="/chapterlist/:bookName"
                                 element={<ChapterListPage />}
                               />
