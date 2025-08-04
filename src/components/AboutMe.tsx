@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { COLORS } from '@/constants/colors';
 import { useNavigate } from 'react-router-dom';
-
+import Image2 from '../assets/image.png';
 const AboutMe: React.FC = () => {
 
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ const AboutMe: React.FC = () => {
           transition={{ duration: 0.6 }}
         >
           <img
-            src="https://media-del1-2.cdn.whatsapp.net/v/t61.24694-24/473397809_29023379657308623_1084404693783406138_n.jpg?ccb=11-4&oh=01_Q5Aa2AE4tTTnXN4EcOqd0L6JI8Q3tKpgVpieZUqXmI9cN8PCmQ&oe=6882EE73&_nc_sid=5e03e0&_nc_cat=102"
+            src={Image2}
             alt="About Me"
             className="w-full h-full object-cover"
           />

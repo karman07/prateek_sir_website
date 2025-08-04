@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAdminPositions } from '../contexts/AdminPositionsContext';
+import Image2 from '../assets/image.png'
 
 const AboutPage: React.FC = () => {
   const { positions } = useAdminPositions();
@@ -60,7 +61,7 @@ const AboutPage: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <img
-            src="https://media-del1-2.cdn.whatsapp.net/v/t61.24694-24/473397809_29023379657308623_1084404693783406138_n.jpg?ccb=11-4&oh=01_Q5Aa2AE4tTTnXN4EcOqd0L6JI8Q3tKpgVpieZUqXmI9cN8PCmQ&oe=6882EE73&_nc_sid=5e03e0&_nc_cat=102"
+            src={Image2}
             alt="Dr. Parteek Bhatia"
             className="rounded-3xl shadow-2xl max-w-md w-full object-cover border border-slate-200"
           />
