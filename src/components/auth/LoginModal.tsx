@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-// import { firebaseApp } from '@/firebase/firebase';
 import { X } from 'lucide-react';
-// import { FcGoogle } from 'react-icons/fc';
 import { BASE_URL } from '@/constants/base';
 import { motion } from 'framer-motion';
-
-// const auth = getAuth(firebaseApp);
-// const provider = new GoogleAuthProvider();
 
 interface Props {
   onClose: () => void;
@@ -34,42 +28,33 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
     setMessage('');
     try {
       if (!isLogin) {
-        // First register
         const registerRes = await axios.post(`${BASE_URL}/auth/register`, {
           ...form,
           role: 'user',
         });
 
         if (registerRes.data) {
-          // Now auto-login after registration
           const loginRes = await axios.post(`${BASE_URL}/auth/login`, {
             email: form.email,
             password: form.password,
           });
 
-          
-
-          // Optionally store token
           localStorage.setItem('token', loginRes.data.accessToken);
           localStorage.setItem('user', JSON.stringify(loginRes.data.user));
-
-          onClose(); // close modal
+          onClose();
+          window.location.reload(); // reload after modal closes
           return;
         }
       } else {
-        // Login directly
         const loginRes = await axios.post(`${BASE_URL}/auth/login`, {
           email: form.email,
           password: form.password,
         });
 
-       
-
-        // Optionally store token
         localStorage.setItem('token', loginRes.data.accessToken);
         localStorage.setItem('user', JSON.stringify(loginRes.data.user));
-        console.log(loginRes.data.user)
-        onClose(); // close modal
+        onClose();
+        window.location.reload(); // reload after modal closes
         return;
       }
     } catch (err: any) {
@@ -78,30 +63,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
       setLoading(false);
     }
   };
-
-  // const handleGoogleLogin = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const result = await signInWithPopup(auth, provider);
-  //     const idToken = await result.user.getIdToken();
-
-  //     const res = await axios.post(`${BASE_URL}/auth/firebase-login`, {
-  //       idToken,
-  //     });
-
-
-
-  //     // Optionally store token
-  //     localStorage.setItem('token', res.data.accessToken);
-  //     localStorage.setItem('user', JSON.stringify(res.data.user));
-  //     console.log(JSON.stringify(res.data.user))
-  //     onClose(); // close modal
-  //   } catch (err: any) {
-  //     setMessage(err?.response?.data?.message || 'Google sign-in failed');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -112,7 +73,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
         transition={{ duration: 0.4 }}
         className="bg-white rounded-xl shadow-2xl w-[90%] max-w-xl p-10 relative"
       >
-        {/* Close Button */}
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
           onClick={onClose}
@@ -120,12 +80,10 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
           <X size={24} />
         </button>
 
-        {/* Heading */}
         <h2 className="text-2xl font-bold text-center mb-6 text-slate-800">
           {isLogin ? 'Login to your account' : 'Create a new account'}
         </h2>
 
-        {/* Form */}
         <div className="grid gap-5">
           {!isLogin && (
             <input
@@ -155,7 +113,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
           />
         </div>
 
-        {/* Submit Button */}
         <motion.button
           whileTap={{ scale: 0.95 }}
           whileHover={{ scale: 1.02 }}
@@ -170,18 +127,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
           {loading ? 'Processing...' : isLogin ? 'Login' : 'Register'}
         </motion.button>
 
-        {/* Google Auth */}
-        {/* <motion.button
-          whileTap={{ scale: 0.95 }}
-          className="mt-4 w-full border border-gray-300 text-slate-700 py-3 rounded-lg hover:bg-slate-100 text-base flex items-center justify-center gap-2"
-          onClick={handleGoogleLogin}
-          disabled={loading}
-        >
-          <FcGoogle className="text-xl" />
-          Continue with Google
-        </motion.button> */}
-
-        {/* Toggle */}
         <div className="mt-4 text-center text-sm text-slate-500">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
           <span
@@ -192,7 +137,6 @@ const LoginModal: React.FC<Props> = ({ onClose }) => {
           </span>
         </div>
 
-        {/* Message */}
         {message && (
           <motion.p
             initial={{ opacity: 0 }}

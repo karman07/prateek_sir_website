@@ -37,7 +37,9 @@ const AboutMe: React.FC = () => {
           </h2>
 
           <p className="text-base sm:text-lg mb-6 max-w-2xl text-slate-600">
-           Parteek Kumar is an Associate Professor at the School of Electrical Engineering and Computer Science, Washington State University, Pullman, WA, USA.Before joining WSU, he served as a professor at Thapar Institute of Engineering and Technology, Patiala, India, and as a visiting professor at Whitman College, Walla Walla, WA, USA, and the LAMBDA Lab at Tel Aviv University, Israel. Additionally, he held the position of Associate Dean of Student Affairs at Thapar Institute. He earned his doctorate from Thapar Institute and his master’s degree from BITS Pilani, India. He also completed postdoctoral research at Tel Aviv University, Israel.
+           Dr. Parteek Kumar Bhatia is an Associate Professor at Washington State University and a recognized leader in Machine Learning, Explainable AI, and AI for Social Good. He previously served as Professor and Associate Dean at Thapar Institute of Engineering & Technology (TIET), Patiala, India, and held visiting positions at Whitman College (USA) and Tel Aviv University (Israel). A Gold Tier NVIDIA DLI Ambassador and recipient of the MeitY Young Faculty Research Fellowship, he has secured over $246K in competitive research funding and published 100+ papers. He is the author of bestselling textbooks, including Machine Learning with Python and Data Mining and Data Warehousing (both published by Cambridge University Press). His online courses have reached over 45,000 learners worldwide.
+
+Explore his research, books, and educational initiatives below.
           </p>
 
           <Button

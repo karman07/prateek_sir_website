@@ -1,114 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
-// import {
-//   BarChart,
-//   Bar,
-//   XAxis,
-//   Tooltip,
-//   ResponsiveContainer,
-//   PieChart,
-//   Pie,
-//   Cell,
-//   Legend,
-//   LineChart,
-//   Line,
-//   YAxis,
-//   CartesianGrid,
-// } from 'recharts';
 import { COLORS } from '@/constants/colors';
 
 const stats = [
-  { label: 'Startups', value: 750 },
-  { label: 'Patents', value: 1230 },
-  { label: 'Projects', value: 1500 },
-  { label: 'Publications', value: 400 },
-  { label: 'Students', value: 1000 },
+  { label: 'Fundings', value: '$246K' },
+  { label: 'Authored Books', value: '5' },
+  { label: 'Online Learners', value: '50000' },
+  { label: 'SCI Journals', value: '7' },
+  { label: 'Invited Talks', value: '60' },
 ];
 
-// const chartTypes = ['Bar Chart', 'Pie Chart', 'Line Chart'];
-
 const Statistics: React.FC = () => {
-  // const [selectedChart, setSelectedChart] = useState('Bar Chart');
-
-  // const renderChart = () => {
-  //   if (selectedChart === 'Bar Chart') {
-  //     return (
-  //       <ResponsiveContainer width="100%" height="100%">
-  //         <BarChart data={stats}>
-  //           <XAxis dataKey="label" stroke={COLORS.textMuted} />
-  //           <Tooltip
-  //             contentStyle={{
-  //               backgroundColor: COLORS.primaryBg,
-  //               border: 'none',
-  //               color: '#fff',
-  //             }}
-  //           />
-  //           <Bar dataKey="value" fill={COLORS.accent} radius={[6, 6, 0, 0]} />
-  //         </BarChart>
-  //       </ResponsiveContainer>
-  //     );
-  //   }
-
-  //   if (selectedChart === 'Pie Chart') {
-  //     return (
-  //       <ResponsiveContainer width="100%" height="100%">
-  //         <PieChart>
-  //           <Pie
-  //             data={stats}
-  //             dataKey="value"
-  //             nameKey="label"
-  //             cx="50%"
-  //             cy="50%"
-  //             outerRadius={100}
-  //             label
-  //           >
-  //             {stats.map((_, index) => (
-  //               <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />
-  //             ))}
-  //           </Pie>
-  //           <Legend />
-  //           <Tooltip
-  //             contentStyle={{
-  //               backgroundColor: COLORS.primaryBg,
-  //               border: 'none',
-  //               color: '#fff',
-  //             }}
-  //           />
-  //         </PieChart>
-  //       </ResponsiveContainer>
-  //     );
-  //   }
-
-  //   if (selectedChart === 'Line Chart') {
-  //     return (
-  //       <ResponsiveContainer width="100%" height="100%">
-  //         <LineChart data={stats}>
-  //           <CartesianGrid strokeDasharray="3 3" />
-  //           <XAxis dataKey="label" stroke={COLORS.textMuted} />
-  //           <YAxis stroke={COLORS.textMuted} />
-  //           <Tooltip
-  //             contentStyle={{
-  //               backgroundColor: COLORS.primaryBg,
-  //               border: 'none',
-  //               color: '#fff',
-  //             }}
-  //           />
-  //           <Line
-  //             type="monotone"
-  //             dataKey="value"
-  //             stroke={COLORS.accent}
-  //             strokeWidth={3}
-  //             dot={{ fill: COLORS.gradientAccent}}
-  //           />
-  //         </LineChart>
-  //       </ResponsiveContainer>
-  //     );
-  //   }
-
-  //   return null;
-  // };
-
   return (
     <section
       className="w-full px-4 py-16 sm:px-6 md:px-12 lg:px-20 xl:px-32"
@@ -134,34 +36,11 @@ const Statistics: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: idx * 0.1 }}
           >
-            <h3 className="text-3xl font-bold text-white mb-2">
-              <CountUp end={stat.value} duration={2} suffix={stat.value >= 100 ? '+' : ''} />
-            </h3>
+            <h3 className="text-3xl font-bold text-white mb-2">{stat.value}+</h3>
             <p className="text-slate-300 text-sm">{stat.label}</p>
           </motion.div>
         ))}
       </div>
-
-    
-      {/* <div className="flex justify-center gap-4 mt-12 flex-wrap">
-        {chartTypes.map((type) => (
-          <button
-            key={type}
-            onClick={() => setSelectedChart(type)}
-            className={`text-sm sm:text-base px-5 py-2 rounded-full border transition hover:scale-105 ${
-              selectedChart === type
-                ? 'bg-white text-blue-600 font-semibold'
-                : 'bg-white/10 text-white border-white/20'
-            }`}
-          >
-            {type}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-10 w-full h-[300px]">
-        {renderChart()}
-      </div> */}
     </section>
   );
 };

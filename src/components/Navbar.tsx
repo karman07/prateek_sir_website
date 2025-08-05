@@ -185,6 +185,7 @@ const Navbar: React.FC = () => {
                     <li><Link to="/journals" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Journals</Link></li>
                     <li><Link to="/workshops" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Workshops</Link></li>
                     <li><Link to="/chapterlist" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Content</Link></li>
+                    <li><Link to="/poems" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Poems and Songs</Link></li>
                   </motion.ul>
                 )}
               </AnimatePresence>
