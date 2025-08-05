@@ -31,6 +31,7 @@ import { ChapterProvider } from "./contexts/ChapterContext";
 import { TestimonialProvider } from "./contexts/TestimonialContext";
 import { PoemProvider } from "./contexts/PoemContext";
 import PoemsPage from "./pages/PoemsPage";
+import StudentsPage from "./pages/StudentsPage";
 
 const FaviconIcon: React.FC = () => (
   <a
@@ -118,6 +119,10 @@ const App: React.FC = () => {
                                   <Route
                                     path="/chapterlist/:bookName"
                                     element={<ChapterListPage />}
+                                  />
+                                 <Route
+                                    path="/students"
+                                    element={<StudentsPage />}
                                   />
                                   <Route
                                     path="/poems"

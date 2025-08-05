@@ -169,26 +169,83 @@ const Navbar: React.FC = () => {
               >
                 More <ChevronDown size={16} />
               </button>
-              <AnimatePresence>
-                {openDropdown === 'More' && (
-                  <motion.ul
-                    ref={moreDropdownRef}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full left-0 mt-2 bg-white text-slate-800 shadow-md rounded-lg w-60 p-2 space-y-2 z-50"
-                  >
-                    <li><Link to="/about" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">About Me</Link></li>
-                    <li><Link to="/podcast" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Podcast</Link></li>
-                    <li><Link to="/contact" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Contact Me</Link></li>
-                    <li><Link to="/administrative" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Positions</Link></li>
-                    <li><Link to="/journals" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Journals</Link></li>
-                    <li><Link to="/workshops" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Workshops</Link></li>
-                    <li><Link to="/chapterlist" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Content</Link></li>
-                    <li><Link to="/poems" onClick={() => setOpenDropdown(null)} className="block px-3 py-1 rounded hover:bg-slate-100 text-sm">Poems and Songs</Link></li>
-                  </motion.ul>
-                )}
-              </AnimatePresence>
+<AnimatePresence>
+  {openDropdown === 'More' && (
+    <motion.ul
+      ref={moreDropdownRef}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      className="absolute top-full left-0 mt-2 w-72 bg-white text-slate-800 shadow-2xl rounded-xl p-3 z-50 space-y-2"
+      role="menu"
+      aria-label="More options"
+    >
+      {/* Mine Section */}
+      <li className="text-xs font-bold text-slate-500 uppercase px-2 pt-1 tracking-widest">
+        Mine
+      </li>
+      {[
+        { name: 'About Me', to: '/about' },
+        { name: 'Students', to: '/students' },
+        { name: 'Contact Me', to: '/contact' },
+      ].map((item) => (
+        <li key={item.to}>
+          <Link
+            to={item.to}
+            onClick={() => setOpenDropdown(null)}
+            className="block px-3 py-2 text-sm rounded-lg hover:bg-slate-100 focus:bg-slate-100 focus:outline-none transition-colors"
+            role="menuitem"
+          >
+            {item.name}
+          </Link>
+        </li>
+      ))}
+
+      {/* Achievements Section */}
+      <li className="text-xs font-bold text-slate-500 uppercase px-2 pt-3 tracking-widest">
+        Achievements
+      </li>
+      {[
+        { name: 'Administrative Roles', to: '/administrative' },
+        { name: 'Journals', to: '/journals' },
+        { name: 'Nvidia Workshops', to: '/workshops' },
+      ].map((item) => (
+        <li key={item.to}>
+          <Link
+            to={item.to}
+            onClick={() => setOpenDropdown(null)}
+            className="block px-3 py-2 text-sm rounded-lg hover:bg-slate-100 focus:bg-slate-100 focus:outline-none transition-colors"
+            role="menuitem"
+          >
+            {item.name}
+          </Link>
+        </li>
+      ))}
+
+      {/* Hobby Section */}
+      <li className="text-xs font-bold text-slate-500 uppercase px-2 pt-3 tracking-widest">
+        Hobby
+      </li>
+      {[
+        { name: 'Poems and Songs', to: '/poems' },
+        { name: 'Invited Talks & Podcasts', to: '/podcast' },
+      ].map((item) => (
+        <li key={item.to}>
+          <Link
+            to={item.to}
+            onClick={() => setOpenDropdown(null)}
+            className="block px-3 py-2 text-sm rounded-lg hover:bg-slate-100 focus:bg-slate-100 focus:outline-none transition-colors"
+            role="menuitem"
+          >
+            {item.name}
+          </Link>
+        </li>
+      ))}
+    </motion.ul>
+  )}
+</AnimatePresence>
+
+
             </li>
 
             {isLoggedIn ? (

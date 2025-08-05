@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {
-  FaInstagram,
-  FaFacebookF,
-  FaTwitter,
-  FaWhatsapp,
-  FaTelegramPlane,
-} from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaInstagram, FaFacebookF, FaTwitter, FaWhatsapp, FaTelegramPlane, FaLinkedin, FaGithub, FaYoutube } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 import { COLORS } from '@/constants/colors';
 import { BASE_URL } from '@/constants/base';
+import { useBooks } from '@/contexts/BooksContext';
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const books = useBooks();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const subscribed = localStorage.getItem('subscribed');
@@ -24,7 +20,12 @@ const Footer: React.FC = () => {
     if (!email.trim()) return alert('Please enter a valid email');
 
     try {
-      await axios.post(`${BASE_URL}/subscribe`, { email }); 
+      await fetch(`${BASE_URL}/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
       localStorage.setItem('subscribed', 'true');
       setIsSubscribed(true);
     } catch (error) {
@@ -38,11 +39,9 @@ const Footer: React.FC = () => {
       style={{ backgroundColor: COLORS.primaryBg }}
       className="text-white pt-16 px-6 md:px-12"
     >
-      {/* Newsletter Section */}
+      {/* Newsletter */}
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-white">
-          Stay in touch with us
-        </h2>
+        <h2 className="text-2xl sm:text-3xl font-semibold">Stay in touch with us</h2>
         <p className="mt-2 text-slate-300">
           Receive the latest updates about our work, research & events
         </p>
@@ -67,53 +66,71 @@ const Footer: React.FC = () => {
       <hr className="border-slate-600" />
 
       <div className="max-w-7xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 text-sm text-center">
+        {/* Research */}
         <div>
-          <h3 className="text-lg font-bold mb-3 text-white">Parteek Bhatia</h3>
-          <p className="text-slate-300">
-            Passionate technologist, educator, and researcher creating meaningful digital experiences for a better future.
-          </p>
-          <div className="flex justify-center gap-4 mt-4 text-xl text-slate-300">
-            <a href="#"><FaInstagram className="hover:text-pink-500 transition" /></a>
-            <a href="#"><FaFacebookF className="hover:text-blue-500 transition" /></a>
-            <a href="#"><FaTwitter className="hover:text-sky-400 transition" /></a>
-            <a href="#"><FaTelegramPlane className="hover:text-blue-400 transition" /></a>
-            <a href="#"><FaWhatsapp className="hover:text-green-400 transition" /></a>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-bold mb-3 text-white">My Work</h3>
+          <h3 className="text-lg font-bold mb-3">Research</h3>
           <ul className="text-slate-300 space-y-2">
-            <li><Link to="/books">Books</Link></li>
-            <li><Link to="/podcast">Podcast</Link></li>
-            <li><Link to="/journals">Journals</Link></li>
-            <li><Link to="/workshops">Workshops</Link></li>
+            <li><Link to="/research">Research Projects</Link></li>
+            <li><Link to="/journals">SCI Publications</Link></li>
+            <li><Link to="/chapterlist">Conferences & Book Chapters</Link></li>
+            <li><Link to="/students">PhD & Master Students</Link></li>
           </ul>
         </div>
 
+        {/* Books (from Context) */}
         <div>
-          <h3 className="text-lg font-bold mb-3 text-white">My Achievements</h3>
+          <h3 className="text-lg font-bold mb-3">Books</h3>
           <ul className="text-slate-300 space-y-2">
-            <li><Link to="/about">About Me</Link></li>
-            <li><Link to="/contact">Contact Me</Link></li>
-            <li><Link to="/podcast">Podcast</Link></li>
-            <li><Link to="/chapterlist">Content</Link></li>
+            {books.slice(0, 4).map((book) => (
+              <li
+                key={book._id}
+                className="hover:text-blue-400 cursor-pointer transition"
+                onClick={() => navigate(`/books/${book._id}`)}
+              >
+                {book.title}
+              </li>
+            ))}
+            <li><Link to="/resources">Instructor & Student Resources</Link></li>
           </ul>
         </div>
 
+        {/* Professional Profiles */}
         <div>
-          <h3 className="text-lg font-bold mb-3 text-white">Tools & Links</h3>
+          <h3 className="text-lg font-bold mb-3">Professional Profiles</h3>
           <ul className="text-slate-300 space-y-2">
-            <li>GitHub</li>
-            <li>Google Scholar</li>
-            <li>ResearchGate</li>
-            <li>LinkedIn</li>
-            <li>ORCID</li>
+            <li><a href="https://scholar.google.com/citations?user=bK76Z3YAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
+            <li><a href="https://www.linkedin.com/in/parteekbhatia" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://facebook.com/parteek.bhatia" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+            <li><a href="https://github.com/parteekbhatia" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </div>
+
+        {/* Creative Corner */}
+        <div>
+          <h3 className="text-lg font-bold mb-3">Creative Corner</h3>
+          <ul className="text-slate-300 space-y-2">
+            <li><Link to="/poems">My Poems & Songs</Link></li>
+            <li><a href="#" target="_blank">My Poem Book</a></li>
+            <li><a href="https://www.youtube.com/@ParteekBhatia" target="_blank" rel="noopener noreferrer">YouTube Channel</a></li>
+            <li><Link to="/podcast">Talks & Podcasts</Link></li>
           </ul>
         </div>
       </div>
 
-      <div className="text-center py-6 border-t border-slate-700 text-slate-400 text-sm">
+      {/* Social Icons */}
+      <div className="flex justify-center gap-4 mt-4 text-xl text-slate-300">
+        <a href="https://instagram.com" target="_blank"><FaInstagram className="hover:text-pink-500 transition" /></a>
+        <a href="https://facebook.com" target="_blank"><FaFacebookF className="hover:text-blue-500 transition" /></a>
+        <a href="https://twitter.com" target="_blank"><FaTwitter className="hover:text-sky-400 transition" /></a>
+        <a href="https://telegram.org" target="_blank"><FaTelegramPlane className="hover:text-blue-400 transition" /></a>
+        <a href="https://wa.me" target="_blank"><FaWhatsapp className="hover:text-green-400 transition" /></a>
+        <a href="https://linkedin.com" target="_blank"><FaLinkedin className="hover:text-sky-600 transition" /></a>
+        <a href="https://github.com" target="_blank"><FaGithub className="hover:text-gray-400 transition" /></a>
+        <a href="https://youtube.com" target="_blank"><FaYoutube className="hover:text-red-500 transition" /></a>
+      </div>
+
+      {/* Copyright */}
+      <div className="text-center py-6 border-t border-slate-700 text-slate-400 text-sm mt-6">
         © {new Date().getFullYear()} Parteek Bhatia. All rights reserved.
       </div>
     </footer>
