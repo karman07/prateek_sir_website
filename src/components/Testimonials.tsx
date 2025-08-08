@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Quote } from 'lucide-react';
 import { COLORS } from '@/constants/colors';
 import { useTestimonials } from '@/contexts/TestimonialContext';
+import { BASE_URL } from '@/constants/base';
 
 const placeholderImage =
   'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/500px-Unknown_person.jpg';
@@ -65,7 +66,7 @@ const Testimonials: React.FC = () => {
                     <div className="flex items-center mt-4">
                       <div className="w-14 h-14 rounded-full overflow-hidden mr-3 border border-gray-300">
                         <img
-                          src={t.image?.trim() || placeholderImage}
+                          src={BASE_URL +'/' +t.image?.trim() || placeholderImage}
                           alt={t.name}
                           onError={(e) => ((e.target as HTMLImageElement).src = placeholderImage)}
                           className="w-full h-full object-cover"

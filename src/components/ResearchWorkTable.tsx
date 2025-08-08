@@ -1,76 +1,83 @@
 import React from 'react';
 import { useResearch } from '@/contexts/ResearchContext';
 import { COLORS } from '@/constants/colors';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-const ResearchWorkTable: React.FC = () => {
+const ResearchWorkCards: React.FC = () => {
   const projects = useResearch();
   const navigate = useNavigate();
-  const visibleProjects = projects.slice(0, 5);
+
+  // Show only first 3 projects
+  const visibleProjects = projects.slice(0, 3);
 
   return (
     <section className="w-full px-4 py-16 sm:px-6 md:px-12 lg:px-20 xl:px-32 bg-white">
       <div className="max-w-none mx-auto">
+        {/* Heading */}
         <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-center">
           Research <span className={`${COLORS.gradientText}`}>Projects</span>
         </h2>
 
-        <div className="overflow-x-auto rounded-2xl shadow-lg border border-slate-200">
-          <table className="min-w-[1200px] w-full divide-y divide-slate-200 text-sm sm:text-base">
-            <thead className="bg-slate-100 text-slate-700">
-              <tr>
-                <th className="px-4 py-4 text-left font-semibold">#</th>
-                <th className="px-4 py-4 text-left font-semibold">Title</th>
-                <th className="px-4 py-4 text-left font-semibold">Amount</th>
-                <th className="px-4 py-4 text-left font-semibold">Agency</th>
-                <th className="px-4 py-4 text-left font-semibold">Scheme</th>
-                <th className="px-4 py-4 text-left font-semibold">Duration</th>
-                <th className="px-4 py-4 text-left font-semibold">Investigators</th>
-                <th className="px-4 py-4 text-left font-semibold">Learn More</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 bg-white">
-              {visibleProjects.map((proj, index) => (
-                <tr
-                  key={proj._id}
-                  className="hover:bg-slate-50 transition duration-300"
-                >
-                  <td className="px-4 py-4 font-medium text-slate-700">{index + 1}</td>
-                  <td className="px-4 py-4">{proj.title}</td>
-                  <td className="px-4 py-4">{proj.amount}</td>
-                  <td className="px-4 py-4">{proj.fundingAgency}</td>
-                  <td className="px-4 py-4">{proj.scheme}</td>
-                  <td className="px-4 py-4">{proj.duration}</td>
-                  <td className="px-4 py-4">{proj.investigators}</td>
-                  <td className="px-4 py-4">
-                    <span
-                      onClick={() => navigate(`/research/${proj._id}`)}
-                      className="text-sm text-blue-600 hover:underline cursor-pointer font-medium"
-                    >
-                      Learn More →
-                    </span>
-                  </td>
-                </tr>
-              ))}
+        {/* Cards */}
+        {visibleProjects.length === 0 ? (
+          <p className="text-center text-slate-500 text-lg">No research work found.</p>
+        ) : (
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {visibleProjects.map((proj, idx) => (
+              <motion.div
+                key={proj._id}
+                className="rounded-2xl border border-slate-200 shadow-md bg-white p-5 flex flex-col justify-between hover:shadow-lg transition"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: idx * 0.1 }}
+              >
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-slate-800 mb-2">{proj.title}</h3>
+                  <p className="text-sm text-slate-600 mb-3">
+                    <span className="font-semibold">Amount:</span> {proj.amount}
+                  </p>
+                  <p className="text-sm text-slate-600 mb-1">
+                    <span className="font-semibold">Agency:</span> {proj.fundingAgency}
+                  </p>
+                  <p className="text-sm text-slate-600 mb-1">
+                    <span className="font-semibold">Scheme:</span> {proj.scheme}
+                  </p>
+                  <p className="text-sm text-slate-600 mb-3">
+                    <span className="font-semibold">Duration:</span> {proj.duration}
+                  </p>
+                </div>
+                <div className="flex justify-between items-end mt-4">
+                  <span className="text-sm text-slate-500 italic">{proj.investigators}</span>
+                  <button
+                    onClick={() => navigate(`/research/${proj._id}`)}
+                    className="text-sm font-medium hover:underline"
+                    style={{ color: COLORS.gradientAccent }}
+                  >
+                    Learn More →
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
-              {projects.length > 5 && (
-                <tr className="text-center bg-slate-50 hover:bg-slate-100 transition">
-                  <td colSpan={8} className="py-4">
-                    <button
-                      onClick={() => navigate('/research')}
-                      className="text-sm text-blue-600 hover:underline font-medium"
-                    >
-                      Show More Projects →
-                    </button>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        {/* View More Button */}
+        {projects.length > 3 && (
+          <div className="text-center mt-10">
+            <button
+              className={`px-6 py-2 rounded-lg text-sm font-medium text-white transition duration-300 ${COLORS.gradientAccent}`}
+              onClick={() => {
+                navigate('/research');
+              }}
+            >
+              View More →
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
 };
 
-export default ResearchWorkTable;
+export default ResearchWorkCards;

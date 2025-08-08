@@ -118,27 +118,40 @@ const Contact: React.FC = () => {
             new ideas or opportunities.
           </p>
 
-          <div className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}>
-            <FiMail className="text-2xl text-[#0B1F3A]" />
+          <div
+            className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}
+          >
+            <div className="flex items-center justify-center text-2xl text-[#0B1F3A]">
+              <FiMail />
+            </div>
             <div>
               <h4 className="text-[#0B1F3A] font-semibold mb-1">Email</h4>
-              <p>your.email@example.com</p>
+              <p>parteek.kumar@wsu.edu</p>
+              <p>parteek.bhatia@gmail.com</p>
             </div>
           </div>
 
-          <div className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}>
-            <FiPhone className="text-2xl text-[#0B1F3A]" />
+          <div
+            className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}
+          >
+            <div className="flex items-center justify-center text-2xl text-[#0B1F3A]">
+              <FiPhone />
+            </div>
             <div>
               <h4 className="text-[#0B1F3A] font-semibold mb-1">Phone</h4>
-              <p>+91-12345-67890</p>
+              <p>+15097033892</p>
             </div>
           </div>
 
-          <div className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}>
-            <FiMapPin className="text-2xl text-[#0B1F3A]" />
+          <div
+            className={`bg-[${COLORS.lightBg}] p-5 rounded-xl shadow-sm flex items-center gap-4`}
+          >
+            <div className="flex items-center justify-center text-2xl text-[#0B1F3A]">
+              <FiMapPin />
+            </div>
             <div>
               <h4 className="text-[#0B1F3A] font-semibold mb-1">Location</h4>
-              <p>Punjab, India</p>
+              <p>Pullman, WA, USA</p>
             </div>
           </div>
         </motion.div>

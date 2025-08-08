@@ -59,6 +59,7 @@ export const TestimonialProvider: React.FC<{ children: React.ReactNode }> = ({ c
         const response = await axios.get<Testimonial[]>(`${BASE_URL}/testimonials`);
         if (response.data && response.data.length > 0) {
           setTestimonials(response.data);
+          console.log('Fetched testimonials:', response.data);
         } else {
           setTestimonials(fallbackTestimonials);
         }

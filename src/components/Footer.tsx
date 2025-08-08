@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { FaInstagram, FaFacebookF, FaTwitter, FaWhatsapp, FaTelegramPlane, FaLinkedin, FaGithub, FaYoutube } from 'react-icons/fa';
+import {
+  FaFacebookF,
+  FaLinkedin,
+  FaGithub,
+  FaYoutube,
+  FaBook,
+  FaFlask,
+  FaPaintBrush,
+  FaGoogle,
+  FaChalkboardTeacher,
+  FaGraduationCap,
+  FaMicrophone,
+  FaYoutube as FaYoutubeIcon,
+  FaEnvelopeOpenText
+} from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { COLORS } from '@/constants/colors';
 import { BASE_URL } from '@/constants/base';
@@ -41,7 +55,9 @@ const Footer: React.FC = () => {
     >
       {/* Newsletter */}
       <div className="max-w-6xl mx-auto text-center mb-12">
-        <h2 className="text-2xl sm:text-3xl font-semibold">Stay in touch with us</h2>
+        <h2 className="text-2xl sm:text-3xl font-semibold flex justify-center items-center gap-2">
+          <FaEnvelopeOpenText /> Stay in touch with us
+        </h2>
         <p className="mt-2 text-slate-300">
           Receive the latest updates about our work, research & events
         </p>
@@ -68,65 +84,68 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 text-sm text-center">
         {/* Research */}
         <div>
-          <h3 className="text-lg font-bold mb-3">Research</h3>
+          <h3 className="text-lg font-bold mb-3 flex items-center justify-center gap-2">
+            Research
+          </h3>
           <ul className="text-slate-300 space-y-2">
-            <li><Link to="/research">Research Projects</Link></li>
-            <li><Link to="/journals">SCI Publications</Link></li>
-            <li><Link to="/chapterlist">Conferences & Book Chapters</Link></li>
-            <li><Link to="/students">PhD & Master Students</Link></li>
+            <li><Link to="/research"><FaFlask className="inline mr-2" /> Research Projects</Link></li>
+            <li><Link to="/journals"><FaBook className="inline mr-2" /> SCI Publications</Link></li>
+            <li><Link to="/chapterlist"><FaBook className="inline mr-2" /> Conferences & Book Chapters</Link></li>
+            <li><Link to="/students"><FaGraduationCap className="inline mr-2" /> PhD & Master Students</Link></li>
           </ul>
         </div>
 
         {/* Books (from Context) */}
         <div>
-          <h3 className="text-lg font-bold mb-3">Books</h3>
+          <h3 className="text-lg font-bold mb-3 flex items-center justify-center gap-2">
+            Books
+          </h3>
           <ul className="text-slate-300 space-y-2">
-            {books.slice(0, 4).map((book) => (
+            {books.slice(0, 3).map((book) => (
               <li
                 key={book._id}
-                className="hover:text-blue-400 cursor-pointer transition"
+                className="hover:text-blue-400 cursor-pointer transition flex items-center justify-center gap-2"
                 onClick={() => navigate(`/books/${book._id}`)}
               >
-                {book.title}
+                <FaBook /> {book.title}
               </li>
             ))}
-            <li><Link to="/resources">Instructor & Student Resources</Link></li>
+            <li><Link to="/resources"><FaChalkboardTeacher className="inline mr-2" /> Instructor & Student Resources</Link></li>
           </ul>
         </div>
 
         {/* Professional Profiles */}
         <div>
-          <h3 className="text-lg font-bold mb-3">Professional Profiles</h3>
+          <h3 className="text-lg font-bold mb-3 flex items-center justify-center gap-2">
+            Professional Profiles
+          </h3>
           <ul className="text-slate-300 space-y-2">
-            <li><a href="https://scholar.google.com/citations?user=bK76Z3YAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
-            <li><a href="https://www.linkedin.com/in/parteekbhatia" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="https://facebook.com/parteek.bhatia" target="_blank" rel="noopener noreferrer">Facebook</a></li>
-            <li><a href="https://github.com/parteekbhatia" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://scholar.google.com/citations?user=w5-YIk0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer"><FaGoogle className="inline mr-2" /> Google Scholar</a></li>
+            <li><a href=" https://www.linkedin.com/in/parteek-kumar-0237ab33/" target="_blank" rel="noopener noreferrer"><FaLinkedin className="inline mr-2" /> LinkedIn</a></li>
+            <li><a href="https://www.facebook.com/parteek.bhatia.54/" target="_blank" rel="noopener noreferrer"><FaFacebookF className="inline mr-2" /> Facebook</a></li>
+            <li><a href="https://github.com/bhatiaparteek" target="_blank" rel="noopener noreferrer"><FaGithub className="inline mr-2" /> GitHub</a></li>
           </ul>
         </div>
 
         {/* Creative Corner */}
         <div>
-          <h3 className="text-lg font-bold mb-3">Creative Corner</h3>
+          <h3 className="text-lg font-bold mb-3 flex items-center justify-center gap-2">
+             Creative Corner
+          </h3>
           <ul className="text-slate-300 space-y-2">
-            <li><Link to="/poems">My Poems & Songs</Link></li>
-            <li><a href="#" target="_blank">My Poem Book</a></li>
-            <li><a href="https://www.youtube.com/@ParteekBhatia" target="_blank" rel="noopener noreferrer">YouTube Channel</a></li>
-            <li><Link to="/podcast">Talks & Podcasts</Link></li>
+            <li><Link to="/poems"><FaPaintBrush className="inline mr-2" /> My Poems & Songs</Link></li>
+            <li><a href="https://www.youtube.com/@parteekbhatia" target="_blank" rel="noopener noreferrer"><FaYoutubeIcon className="inline mr-2" /> YouTube Channel</a></li>
+            <li><Link to="/podcast"><FaMicrophone className="inline mr-2" /> Talks & Podcasts</Link></li>
           </ul>
         </div>
       </div>
 
       {/* Social Icons */}
       <div className="flex justify-center gap-4 mt-4 text-xl text-slate-300">
-        <a href="https://instagram.com" target="_blank"><FaInstagram className="hover:text-pink-500 transition" /></a>
-        <a href="https://facebook.com" target="_blank"><FaFacebookF className="hover:text-blue-500 transition" /></a>
-        <a href="https://twitter.com" target="_blank"><FaTwitter className="hover:text-sky-400 transition" /></a>
-        <a href="https://telegram.org" target="_blank"><FaTelegramPlane className="hover:text-blue-400 transition" /></a>
-        <a href="https://wa.me" target="_blank"><FaWhatsapp className="hover:text-green-400 transition" /></a>
-        <a href="https://linkedin.com" target="_blank"><FaLinkedin className="hover:text-sky-600 transition" /></a>
-        <a href="https://github.com" target="_blank"><FaGithub className="hover:text-gray-400 transition" /></a>
-        <a href="https://youtube.com" target="_blank"><FaYoutube className="hover:text-red-500 transition" /></a>
+        <a href="https://www.facebook.com/parteek.bhatia.54/" target="_blank"><FaFacebookF className="hover:text-blue-500 transition" /></a>
+        <a href=" https://www.linkedin.com/in/parteek-kumar-0237ab33/" target="_blank"><FaLinkedin className="hover:text-sky-600 transition" /></a>
+        <a href="https://github.com/bhatiaparteek" target="_blank"><FaGithub className="hover:text-gray-400 transition" /></a>
+        <a href="https://www.youtube.com/@parteekbhatia" target="_blank"><FaYoutube className="hover:text-red-500 transition" /></a>
       </div>
 
       {/* Copyright */}

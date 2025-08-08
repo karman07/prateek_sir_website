@@ -32,6 +32,12 @@ import { TestimonialProvider } from "./contexts/TestimonialContext";
 import { PoemProvider } from "./contexts/PoemContext";
 import PoemsPage from "./pages/PoemsPage";
 import StudentsPage from "./pages/StudentsPage";
+import { PublicationsProvider } from "./contexts/PublicationsContext";
+import PublicationsPage from "./pages/publications";
+import ConferencesPage from "./pages/Conferences";
+import { ConferencesProvider } from "./contexts/ConferencesContext";
+import { ArticlesProvider } from "./contexts/ArticlesContext";
+import ArticlesPage from "./pages/ArticlesPage";
 
 const FaviconIcon: React.FC = () => (
   <a
@@ -60,6 +66,9 @@ const App: React.FC = () => {
                     <ChapterProvider>
                       <TestimonialProvider>
                         <PoemProvider>
+                          <PublicationsProvider>
+                            <ConferencesProvider>
+                              <ArticlesProvider>
                           <Router>
                             <ScrollToTop />
 
@@ -128,11 +137,26 @@ const App: React.FC = () => {
                                     path="/poems"
                                     element={<PoemsPage />}
                                   />
+                                  <Route
+                                    path="/publications"
+                                    element={<PublicationsPage />}
+                                  />
+                                  <Route
+                                    path="/conferences"
+                                    element={<ConferencesPage />}
+                                  />
+                                  <Route
+                                    path="/articles"
+                                    element={<ArticlesPage />}
+                                  />
                                 </Routes>
                               </main>
                               <Footer />
                             </div>
                           </Router>
+                          </ArticlesProvider>
+                          </ConferencesProvider>
+                          </PublicationsProvider>
                         </PoemProvider>
                       </TestimonialProvider>
                     </ChapterProvider>

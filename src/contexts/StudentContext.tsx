@@ -29,6 +29,14 @@ const staticStudents: Student[] = [
     image: '',
   },
   {
+    _id: '2',
+    name: 'Dr. Rahul Sharma',
+    thesisTitle: 'Blockchain for Secure Medical Records',
+    degree: 'PhD',
+    year: '2022',
+    image: '',
+  },
+  {
     _id: '3',
     name: 'Dr.Sawinder Kaur',
     thesisTitle: 'Fake Content Detection System for Multimodal',
