@@ -23,6 +23,8 @@ import { ContactModule } from './contact/contact.module';
 import { Poem } from './poems/schemas/poem.schema';
 import { PoemsModule } from './poems/poems.module';
 import { PublicationsModule } from './publication/publications.module';
+import { ConferencesModule } from './conferences/conferences.module';
+import { ArticlesModule } from './articles/articles.module';
 
 
 @Module({
@@ -50,7 +52,9 @@ import { PublicationsModule } from './publication/publications.module';
     SubscribeModule,
     ContactModule,
     PoemsModule,
-    PublicationsModule
+    PublicationsModule,
+    ConferencesModule,
+    ArticlesModule
   ]
 })
 export class AppModule {}
