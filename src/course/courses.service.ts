@@ -17,7 +17,8 @@ export class CoursesService {
   }
 
   async findAll(): Promise<Course[]> {
-    return this.courseModel.find();
+    // Sort by priority (high first), then by createdAt (newest first)
+    return this.courseModel.find().sort({ priority: -1, createdAt: -1 });
   }
 
   async findOne(id: string): Promise<Course> {

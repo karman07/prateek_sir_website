@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString, IsNumber, IsOptional, IsArray } from 'class-validator';
 
 export class CreateBookDto {
@@ -21,4 +22,9 @@ export class CreateBookDto {
   @IsArray()
   @IsString({ each: true })
   tableOfContents?: string[];
+
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber()
+  priority?: number; // Optional priority in DTO
 }

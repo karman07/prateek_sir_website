@@ -31,6 +31,9 @@ export class Course {
 
   @Prop()
   link?: string;
+
+  @Prop({ type: Number, default: 0 }) // Optional priority field
+  priority?: number;
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);

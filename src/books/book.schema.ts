@@ -23,6 +23,8 @@ export class Book {
   @Prop()
   link?: string;
 
+  @Prop({ type: Number, default: 0 }) 
+  priority?: number;
 }
 
 export const BookSchema = SchemaFactory.createForClass(Book);

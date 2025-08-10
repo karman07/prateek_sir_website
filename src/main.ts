@@ -10,11 +10,12 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });
-   app.useGlobalPipes(
+  app.useGlobalPipes(
     new ValidationPipe({
-      transform: true, // ✅ THIS is required
-      whitelist: true,
-      forbidNonWhitelisted: true,
+      transform: true, // Converts payloads to DTO instances
+      transformOptions: {
+        enableImplicitConversion: true, // Allows automatic type conversion
+      },
     }),
   );
   await app.listen(3000);

@@ -1,12 +1,43 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateCourseDto {
-  @IsString() title: string;
-  @IsString() description: string;
-  @IsString() instructor: string;
-  @IsString() duration: string;
-  @IsString() level: string;
-  @IsString() lessons: string;
-  @IsOptional() @IsString() badge?: string;
-  @IsOptional() @IsString() link?: string;
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @IsNotEmpty()
+  @IsString()
+  thumbnail: string;
+
+  @IsNotEmpty()
+  @IsString()
+  instructor: string;
+
+  @IsNotEmpty()
+  @IsString()
+  duration: string;
+
+  @IsNotEmpty()
+  @IsString()
+  level: string;
+
+  @IsNotEmpty()
+  @IsString()
+  lessons: string;
+
+  @IsOptional()
+  @IsString()
+  badge?: string;
+
+  @IsOptional()
+  @IsString()
+  link?: string;
+
+  @IsOptional()
+  @IsNumber()
+  priority?: number; // optional priority
 }

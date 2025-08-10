@@ -16,7 +16,7 @@ export class BooksService {
   }
 
   async findAll(): Promise<Book[]> {
-    return this.bookModel.find();
+    return this.bookModel.find().sort({ priority: -1, createdAt: -1 });
   }
 
   async findOne(id: string): Promise<Book> {
