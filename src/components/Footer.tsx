@@ -8,7 +8,6 @@ import {
   FaFlask,
   FaPaintBrush,
   FaGoogle,
-  FaChalkboardTeacher,
   FaGraduationCap,
   FaMicrophone,
   FaYoutube as FaYoutubeIcon,
@@ -101,7 +100,7 @@ const Footer: React.FC = () => {
             Books
           </h3>
           <ul className="text-slate-300 space-y-2">
-            {books.slice(0, 3).map((book) => (
+            {books.slice(0, 4).map((book) => (
               <li
                 key={book._id}
                 className="hover:text-blue-400 cursor-pointer transition flex items-center justify-center gap-2"
@@ -110,7 +109,7 @@ const Footer: React.FC = () => {
                 <FaBook /> {book.title}
               </li>
             ))}
-            <li><Link to="/resources"><FaChalkboardTeacher className="inline mr-2" /> Instructor & Student Resources</Link></li>
+         
           </ul>
         </div>
 
