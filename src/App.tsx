@@ -38,6 +38,7 @@ import ConferencesPage from "./pages/Conferences";
 import { ConferencesProvider } from "./contexts/ConferencesContext";
 import { ArticlesProvider } from "./contexts/ArticlesContext";
 import ArticlesPage from "./pages/ArticlesPage";
+import MLBookResources from "./pages/ResourcePage";
 
 const FaviconIcon: React.FC = () => (
   <a
@@ -148,6 +149,10 @@ const App: React.FC = () => {
                                   <Route
                                     path="/articles"
                                     element={<ArticlesPage />}
+                                  />
+                                  <Route
+                                    path="/resources"
+                                    element={<MLBookResources />}
                                   />
                                 </Routes>
                               </main>
