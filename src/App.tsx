@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FaYoutube } from "react-icons/fa"; // ✅ Import YouTube icon
+import { FaYoutube, FaTimes, FaInfoCircle } from "react-icons/fa"; // ✅ Import icons
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -40,6 +40,43 @@ import { ArticlesProvider } from "./contexts/ArticlesContext";
 import ArticlesPage from "./pages/ArticlesPage";
 import MLBookResources from "./pages/ResourcePage";
 
+// Migration Notification Component (Floating)
+const MigrationNotification: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed bottom-24 right-4 z-40 max-w-sm">
+      <div className="bg-blue-600 text-white rounded-lg shadow-lg p-3 relative">
+        <button
+          onClick={() => setIsVisible(false)}
+          className="absolute top-1 right-1 text-white hover:text-blue-200 transition-colors"
+          aria-label="Close notification"
+        >
+          <FaTimes size={12} />
+        </button>
+        <div className="flex items-start pr-4">
+          <FaInfoCircle className="text-blue-200 mr-2 mt-0.5 flex-shrink-0" size={16} />
+          <div className="text-xs">
+            <p className="font-semibold mb-1">Instructor Resources</p>
+            <p className="text-blue-100 leading-relaxed">
+              Explore My Machine Learning with Python: Principles and Practical Techniques on
+              <a 
+                href="/resources" 
+                className="font-medium underline hover:text-white transition-colors"
+              >
+              {" "}Resources 
+              </a>
+            
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const FaviconIcon: React.FC = () => (
   <a
     href="https://www.youtube.com/@parteekbhatia/videos"
@@ -72,6 +109,9 @@ const App: React.FC = () => {
                               <ArticlesProvider>
                           <Router>
                             <ScrollToTop />
+
+                            {/* ✅ Migration Notification floating above YouTube icon */}
+                            <MigrationNotification />
 
                             {/* ✅ YouTube favicon floating at bottom-right */}
                             <FaviconIcon />
