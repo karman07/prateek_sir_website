@@ -1,32 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, BookOpen, Github, ExternalLink, ShoppingCart, FileText, Download } from 'lucide-react';
 
-interface AnimatedCounterProps {
-  target: number;
-  duration?: number;
-}
-
-const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ target, duration = 2000 }) => {
-  const [count, setCount] = useState<number>(0);
-
-  useEffect(() => {
-    const increment: number = target / (duration / 16);
-    const timer = setInterval(() => {
-      setCount((prev: number) => {
-        if (prev < target) {
-          return Math.min(prev + increment, target);
-        }
-        clearInterval(timer);
-        return target;
-      });
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [target, duration]);
-
-  return <>{Math.floor(count)}</>;
-};
-
 interface ResourceCardProps {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
@@ -111,7 +85,7 @@ const MLBookResources: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden mt-8">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <FloatingElement delay={0}>
@@ -133,14 +107,9 @@ const MLBookResources: React.FC = () => {
             <span className="text-gray-700 font-medium">Cambridge University Press</span>
           </div> */}
           
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6">
             Instructor Resources
           </h1>
-          
-          <h2 className="text-2xl md:text-3xl text-gray-700 font-light mb-4 leading-relaxed">
-            <span className="italic text-blue-600">Machine Learning with Python:</span><br />
-            <span className="text-purple-600">Principles and Practical Techniques</span>
-          </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Comprehensive teaching materials designed to seamlessly integrate into your curriculum. 
@@ -148,7 +117,7 @@ const MLBookResources: React.FC = () => {
           </p>
           
           {/* Stats */}
-          <div className="flex justify-center gap-8 mt-8">
+          {/* <div className="flex justify-center gap-8 mt-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-gray-800">
                 <AnimatedCounter target={5} />+
@@ -167,7 +136,7 @@ const MLBookResources: React.FC = () => {
               </div>
               <div className="text-sm text-gray-600">Exercises</div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Resources Grid */}
@@ -177,7 +146,7 @@ const MLBookResources: React.FC = () => {
               icon={FileText}
               title="PowerPoint Slides (Editable)"
               description="Complete set of lecture slides, fully customizable for your teaching needs. Includes diagrams, examples, and exercise templates."
-              link="https://drive.google.com/drive/folders/your-slides-folder"
+              link="https://drive.google.com/drive/folders/1e58gAoZ_XtyqjuB5h-Ja17rsg6fMPssL"
               linkText="Access Slides Folder"
               delay={100}
             />
@@ -193,7 +162,7 @@ const MLBookResources: React.FC = () => {
               icon={BookOpen}
               title="Cambridge Book Page"
               description="Official Cambridge University Press page with detailed book information, sample chapters, and additional resources."
-              link="https://www.cambridge.org/highereducation/books/machine-learning-with-python"
+              link="https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5#overview"
               linkText="Visit Cambridge Page"
               delay={300}
             />
@@ -201,7 +170,7 @@ const MLBookResources: React.FC = () => {
               icon={Download}
               title="Request Examination Copy (For Faculty)"
               description="Faculty members can request a complimentary examination copy for course evaluation and adoption consideration."
-              link="https://www.cambridge.org/academic/textbooks/examination-copy-request"
+              link="https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5/examination-copy/login"
               linkText="Submit Request"
               delay={400}
             />
