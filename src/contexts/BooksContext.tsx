@@ -10,6 +10,7 @@ export interface Book {
   image: string;
   link: string;
   tableOfContents?: string[];
+  priority?: number; 
 }
 
 const BooksContext = createContext<Book[]>([]);
@@ -24,7 +25,19 @@ export const BooksProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const fetchBooks = async () => {
       try {
         const res = await axios.get<Book[]>(`${BASE_URL}/books`);
-        setBooks(res.data);
+
+        // Sort by priority first (high → low), then by created date (if available)
+        const sortedBooks = [...res.data].sort((a, b) => {
+          const priorityA = a.priority ?? 0;
+          const priorityB = b.priority ?? 0;
+
+          if (priorityA !== priorityB) {
+            return priorityB - priorityA; // higher priority first
+          }
+          return 0; // keep same order if priority equal
+        });
+
+        setBooks(sortedBooks);
       } catch (error) {
         console.error('Failed to fetch books:', error);
       } finally {

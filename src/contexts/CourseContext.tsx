@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { BASE_URL } from '@/constants/base'; 
+import { BASE_URL } from '@/constants/base';
 
 export interface Course {
   _id: string;
@@ -13,6 +13,7 @@ export interface Course {
   lessons: number;
   badge?: string;
   link?: string;
+  priority?: number; // New field
 }
 
 const CourseContext = createContext<Course[]>([]);
@@ -27,9 +28,17 @@ export const CourseProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const fetchCourses = async () => {
       try {
         const res = await axios.get<Course[]>(`${BASE_URL}/courses`);
-        setCourses(res.data);
+        // Always default priority to 0 and then sort
+        const sortedCourses = res.data
+          .map(course => ({
+            ...course,
+            priority: course.priority ?? 0, // ensure never undefined
+          }))
+          .sort((a, b) => b.priority! - a.priority!); // higher first
+        setCourses(sortedCourses);
       } catch (error) {
         console.error('Failed to fetch courses:', error);
+        setCourses([]); // still return empty array if error
       } finally {
         setLoading(false);
       }
