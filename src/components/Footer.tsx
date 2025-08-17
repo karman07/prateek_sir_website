@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
           </h3>
           <ul className="text-slate-300 space-y-2">
             <li><Link to="/poems"><FaPaintBrush className="inline mr-2" /> My Poems & Songs</Link></li>
-            <li><a href="https://www.youtube.com/@parteekbhatia" target="_blank" rel="noopener noreferrer"><FaYoutubeIcon className="inline mr-2" /> YouTube Channel</a></li>
+            <li><a href="https://www.youtube.com/@parteekbhatia?sub_confirmation=1" target="_blank" rel="noopener noreferrer"><FaYoutubeIcon className="inline mr-2" /> YouTube Channel</a></li>
             <li><Link to="/podcast"><FaMicrophone className="inline mr-2" /> Talks & Podcasts</Link></li>
           </ul>
         </div>

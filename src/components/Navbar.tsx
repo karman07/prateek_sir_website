@@ -435,8 +435,7 @@ const Navbar: React.FC = () => {
                     items={[
                       { name: 'Students', to: '/students', description: 'My mentees and research scholars' },
                       { name: 'Administrative Roles', to: '/administrative', description: 'Leadership positions held' },
-                      { name: 'Nvidia Workshops', to: '/workshops', description: 'Training and workshops conducted' },
-                      { name: 'Conferences', to: '/conferences', description: 'Conference presentations' },
+                      { name: 'Workshops / Seminars', to: '/workshops', description: 'Training and workshops conducted' }
                     ]}
                     refProp={academicRef}
                     className="w-80"
@@ -464,6 +463,7 @@ const Navbar: React.FC = () => {
                       { name: 'Publications', to: '/publications', description: 'Research publications and papers' },
                       { name: 'SCI Journal', to: '/journals', description: 'Peer-reviewed journal publications' },
                       { name: 'Articles', to: '/articles', description: 'Articles and opinion pieces' },
+                      { name: 'Conferences', to: '/conferences', description: 'Conference presentations' },
                     ]}
                     refProp={publicationsRef}
                     className="w-80"

@@ -79,7 +79,8 @@ const MigrationNotification: React.FC = () => {
 
 const FaviconIcon: React.FC = () => (
   <a
-    href="https://www.youtube.com/@parteekbhatia/videos"
+    href="https://www.youtube.com/@parteekbhatia?sub_confirmation=1
+"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="Visit YouTube Channel"
