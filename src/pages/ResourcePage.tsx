@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, BookOpen, Github, ExternalLink, ShoppingCart, FileText, Download } from 'lucide-react';
+import { 
+  CheckCircle, BookOpen, Github, ExternalLink, ShoppingCart, FileText, Download,
+Menu, X, ChevronRight
+} from 'lucide-react';
 
 interface ResourceCardProps {
   icon: React.ComponentType<{ className?: string }>;
@@ -77,15 +80,92 @@ const FloatingElement: React.FC<FloatingElementProps> = ({ children, delay = 0 }
   );
 };
 
-const MLBookResources: React.FC = () => {
+interface ContentSection {
+  _id: string;
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  subtitle: string;
+  description: string;
+  resources: {
+    _id: string;
+    icon: React.ComponentType<{ className?: string }>;
+    title: string;
+    description: string;
+    link: string;
+    linkText: string;
+  }[];
+}
+
+const contentSections: ContentSection[] = [
+  {
+    _id: '66c1a2b4f8e9d12345678901',
+    title: 'Machine Learning with Python',
+    icon: BookOpen,
+    subtitle: 'Teaching Materials',
+    description: 'Comprehensive teaching materials designed to seamlessly integrate into your curriculum. Everything you need to deliver engaging machine learning courses.',
+    resources: [
+      {
+        _id: '66c1a2b4f8e9d12345678902',
+        icon: FileText,
+        title: 'PowerPoint Slides (Editable)',
+        description: 'Complete set of lecture slides, fully customizable for your teaching needs. Includes diagrams, examples, and exercise templates.',
+        link: 'https://drive.google.com/drive/folders/1e58gAoZ_XtyqjuB5h-Ja17rsg6fMPssL',
+        linkText: 'Access Slides Folder'
+      },
+      {
+        _id: '66c1a2b4f8e9d12345678903',
+        icon: Github,
+        title: 'GitHub Repository with Colab-Ready Notebooks',
+        description: 'Interactive Jupyter notebooks ready to run in Google Colab. Includes code examples, datasets, and practical exercises.',
+        link: 'https://github.com/bhatiaparteek/ml_with_python',
+        linkText: 'View on GitHub'
+      },
+      {
+        _id: '66c1a2b4f8e9d12345678904',
+        icon: BookOpen,
+        title: 'Cambridge Book Page',
+        description: 'Official Cambridge University Press page with detailed book information, sample chapters, and additional resources.',
+        link: 'https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5#overview',
+        linkText: 'Visit Cambridge Page'
+      },
+      {
+        _id: '66c1a2b4f8e9d12345678905',
+        icon: Download,
+        title: 'Request Examination Copy (For Faculty)',
+        description: 'Faculty members can request a complimentary examination copy for course evaluation and adoption consideration.',
+        link: 'https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5/examination-copy/login',
+        linkText: 'Submit Request'
+      },
+      {
+        _id: '66c1a2b4f8e9d12345678906',
+        icon: ShoppingCart,
+        title: 'Buy on Amazon India',
+        description: 'Purchase your copy directly from Amazon India with fast delivery and competitive pricing.',
+        link: 'https://www.amazon.in/Machine-Learning-Python-Principles-Techniques/dp/1009170244',
+        linkText: 'Buy Now on Amazon'
+      }
+    ]
+  },
+];
+
+const GenericResourcesPage: React.FC = () => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [selectedSection, setSelectedSection] = useState<string>('66c1a2b4f8e9d12345678901');
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const currentSection = contentSections.find(section => section._id === selectedSection) || contentSections[0];
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  const handleSectionChange = (sectionId: string) => {
+    setSelectedSection(sectionId);
+    setIsSidebarOpen(false);
+  };
+
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden mt-8">
+    <div className="min-h-screen bg-white relative overflow-hidden pt-20">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <FloatingElement delay={0}>
@@ -99,111 +179,105 @@ const MLBookResources: React.FC = () => {
         </FloatingElement>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
-        {/* Header Section */}
-        <div className={`text-center mb-16 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} transition-all duration-1000`}>
-          {/* <div className="inline-flex items-center gap-3 bg-gray-100 border border-gray-200 rounded-full px-6 py-3 mb-6">
-            <BookOpen className="w-6 h-6 text-blue-600" />
-            <span className="text-gray-700 font-medium">Cambridge University Press</span>
-          </div> */}
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
-            Instructor Resources
-          </h1>
-          
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Comprehensive teaching materials designed to seamlessly integrate into your curriculum. 
-            Everything you need to deliver engaging machine learning courses.
-          </p>
-          
-          {/* Stats */}
-          {/* <div className="flex justify-center gap-8 mt-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-800">
-                <AnimatedCounter target={5} />+
-              </div>
-              <div className="text-sm text-gray-600">Resources</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-800">
-                <AnimatedCounter target={100} />+
-              </div>
-              <div className="text-sm text-gray-600">Slides</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-gray-800">
-                <AnimatedCounter target={50} />+
-              </div>
-              <div className="text-sm text-gray-600">Exercises</div>
-            </div>
-          </div> */}
-        </div>
+      <div className="flex relative z-10">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="lg:hidden fixed top-4 left-4 z-50 bg-white border border-gray-200 rounded-lg p-2 shadow-lg hover:bg-gray-50 transition-colors duration-200"
+        >
+          {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
 
-        {/* Resources Grid */}
-        <div className="max-w-6xl mx-auto">
-          <div className="grid gap-6 md:gap-8">
-            <ResourceCard
-              icon={FileText}
-              title="PowerPoint Slides (Editable)"
-              description="Complete set of lecture slides, fully customizable for your teaching needs. Includes diagrams, examples, and exercise templates."
-              link="https://drive.google.com/drive/folders/1e58gAoZ_XtyqjuB5h-Ja17rsg6fMPssL"
-              linkText="Access Slides Folder"
-              delay={100}
-            />
-            <ResourceCard
-              icon={Github}
-              title="GitHub Repository with Colab-Ready Notebooks"
-              description="Interactive Jupyter notebooks ready to run in Google Colab. Includes code examples, datasets, and practical exercises."
-              link="https://github.com/bhatiaparteek/ml_with_python"
-              linkText="View on GitHub"
-              delay={200}
-            />
-            <ResourceCard
-              icon={BookOpen}
-              title="Cambridge Book Page"
-              description="Official Cambridge University Press page with detailed book information, sample chapters, and additional resources."
-              link="https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5#overview"
-              linkText="Visit Cambridge Page"
-              delay={300}
-            />
-            <ResourceCard
-              icon={Download}
-              title="Request Examination Copy (For Faculty)"
-              description="Faculty members can request a complimentary examination copy for course evaluation and adoption consideration."
-              link="https://www.cambridge.org/highereducation/books/machine-learning-with-python/DEA3D763262EB770E3E47DAEAA6588B5/examination-copy/login"
-              linkText="Submit Request"
-              delay={400}
-            />
-            <ResourceCard
-              icon={ShoppingCart}
-              title="Buy on Amazon India"
-              description="Purchase your copy directly from Amazon India with fast delivery and competitive pricing."
-              link="https://www.amazon.in/Machine-Learning-Python-Principles-Techniques/dp/your-book-id"
-              linkText="Buy Now on Amazon"
-              delay={500}
-            />
+        {/* Sidebar */}
+        <div className={`fixed lg:static inset-y-0 left-0 z-40 w-80 bg-white border-r border-gray-200 shadow-lg lg:shadow-none transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+        }`}>
+          <div className="p-6">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Resources</h2>
+            <nav className="space-y-2">
+              {contentSections.map((section) => {
+                const IconComponent = section.icon;
+                return (
+                  <button
+                    key={section._id}
+                    onClick={() => handleSectionChange(section._id)}
+                    className={`w-full flex items-center gap-3 p-4 rounded-xl transition-all duration-300 group ${
+                      selectedSection === section._id
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
+                        : 'hover:bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    <IconComponent className={`w-6 h-6 ${
+                      selectedSection === section._id ? 'text-white' : 'text-gray-500 group-hover:text-blue-500'
+                    }`} />
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold">{section.title}</div>
+                      <div className={`text-sm ${
+                        selectedSection === section._id ? 'text-blue-100' : 'text-gray-500'
+                      }`}>
+                        {section.subtitle}
+                      </div>
+                    </div>
+                    {selectedSection === section._id && (
+                      <ChevronRight className="w-5 h-5 text-white" />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
           </div>
         </div>
 
-        {/* Call to Action */}
-        {/* <div className="text-center mt-16 p-8 bg-gradient-to-r from-blue-50 to-purple-50 border border-gray-200 rounded-3xl">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Ready to Transform Your Teaching?</h3>
-          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-            Join hundreds of educators worldwide who are already using these resources to deliver 
-            exceptional machine learning education.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-3 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25">
-              Get Started Today
-            </button>
-            <button className="border border-gray-300 hover:border-gray-400 px-8 py-3 rounded-xl text-gray-700 font-semibold transition-all duration-300 hover:bg-gray-50 hover:scale-105">
-              Contact Support
-            </button>
+        {/* Overlay for mobile */}
+        {isSidebarOpen && (
+          <div 
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+            onClick={() => setIsSidebarOpen(false)}
+          ></div>
+        )}
+
+        {/* Main Content */}
+        <div className="flex-1 lg:ml-0">
+          <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
+            {/* Header Section */}
+            <div className={`text-center mb-16 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} transition-all duration-1000`}>
+              <div className="inline-flex items-center gap-3 bg-gray-100 border border-gray-200 rounded-full px-6 py-3 mb-6">
+                <currentSection.icon className="w-6 h-6 text-blue-600" />
+                <span className="text-gray-700 font-medium">{currentSection.subtitle}</span>
+              </div>
+              
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+                {currentSection.title}
+              </h1>
+              
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {currentSection.description}
+              </p>
+            </div>
+
+            {/* Resources Grid */}
+            <div className="max-w-6xl mx-auto">
+              <div className="grid gap-6 md:gap-8">
+                {currentSection.resources.map((resource, index) => (
+                  <ResourceCard
+                    key={resource._id}
+                    icon={resource.icon}
+                    title={resource.title}
+                    description={resource.description}
+                    link={resource.link}
+                    linkText={resource.linkText}
+                    delay={100 * (index + 1)}
+                  />
+                ))}
+              </div>
+            </div>
+
+          
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
 };
 
-export default MLBookResources;
+export default GenericResourcesPage;

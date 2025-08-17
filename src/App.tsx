@@ -61,7 +61,7 @@ const MigrationNotification: React.FC = () => {
           <div className="text-xs">
             <p className="font-semibold mb-1">Instructor Resources</p>
             <p className="text-blue-100 leading-relaxed">
-              Explore My Machine Learning with Python: Principles and Practical Techniques on
+              Hey, here are my Instructor resources
               <a 
                 href="/resources" 
                 className="font-medium underline hover:text-white transition-colors"

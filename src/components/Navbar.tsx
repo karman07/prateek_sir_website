@@ -460,10 +460,10 @@ const Navbar: React.FC = () => {
                 {openDropdown === 'Publications' && (
                   <StaticDropdown
                     items={[
-                      { name: 'Publications', to: '/publications', description: 'Research publications and papers' },
                       { name: 'SCI Journal', to: '/journals', description: 'Peer-reviewed journal publications' },
-                      { name: 'Articles', to: '/articles', description: 'Articles and opinion pieces' },
+                      { name: 'Other Publications', to: '/publications', description: 'Research publications and papers' },
                       { name: 'Conferences', to: '/conferences', description: 'Conference presentations' },
+                      { name: 'Articles', to: '/articles', description: 'Articles and opinion pieces' },
                     ]}
                     refProp={publicationsRef}
                     className="w-80"

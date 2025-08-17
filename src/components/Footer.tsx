@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
           <ul className="text-slate-300 space-y-2">
             <li><Link to="/research"><FaFlask className="inline mr-2" /> Research Projects</Link></li>
             <li><Link to="/journals"><FaBook className="inline mr-2" /> SCI Publications</Link></li>
-            <li><Link to="/chapterlist"><FaBook className="inline mr-2" /> Conferences & Book Chapters</Link></li>
+            <li><Link to="/conferences"><FaBook className="inline mr-2" /> Conferences</Link></li>
             <li><Link to="/students"><FaGraduationCap className="inline mr-2" /> PhD & Master Students</Link></li>
           </ul>
         </div>
